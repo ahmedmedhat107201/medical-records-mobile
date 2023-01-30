@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Signed extends StatelessWidget {
-  final int? id;
-  final String? password;
+  final String id;
+  final String password;
 
   const Signed({
     required this.id,

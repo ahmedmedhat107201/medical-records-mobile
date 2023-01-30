@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/Model/Services/login_api.dart';
+import 'package:medical_records_mobile/constant.dart';
 import 'package:medical_records_mobile/view/screens/signed.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
@@ -8,8 +10,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> _formState = GlobalKey<FormState>();
-    String? _pass;
-    int? _id;
+    String _pass = "";
+    String _id = "";
     return Container(
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -28,19 +30,12 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 150,
                     ),
-
-                    //Welcome
-                    // CustomText(
-                    //   alignment: Alignment.center,
-                    //   text: "Welcome",
-                    //   fontSize: 30,
-                    // ),
                     SizedBox(height: 20),
                     //ID
                     CustomTextFormField(
                       keyboardType: TextInputType.number,
                       onChanged: (input) {
-                        _id = int.tryParse(input);
+                        _id = input;
                       },
                       isHiden: false,
                       text: "National ID",
@@ -84,22 +79,44 @@ class LoginScreen extends StatelessWidget {
                     //Sign In Button
                     CustomButton(
                       text: "SIGN IN",
-                      onPressed: () {
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
+
                         var formData = _formState.currentState;
                         if (!formData!.validate()) {
-                          print("not valid button");
                         } else {
-                          print('valid button');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Signed(
-                                id: _id,
-                                password: _pass,
+                          int sc = await login_api(_id, _pass);
+                          if (sc == 200) {
+                            print("Logged");
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Signed(
+                                  id: _id,
+                                  password: _pass,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            Navigator.of(context).pop();
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Invalid Email or Password"),
+                                backgroundColor: primaryColor,
+                              ),
+                            );
+                          }
                         }
+                        // Navigator.of(context).pop();
                       },
                     ),
                   ],
