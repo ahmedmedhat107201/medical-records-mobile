@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/Model/Services/login_api.dart';
 import 'package:medical_records_mobile/constant.dart';
-import 'package:medical_records_mobile/view/screens/signed.dart';
+import '../screens/home.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_form_field.dart';
@@ -60,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                         if (text!.length < 6) {
                           return 'Password must be at least 6 letters';
                         }
+                        return null;
                       },
                       hint: "*********",
                       text: "Password",
@@ -99,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Signed(
+                                builder: (context) => HomeScreen(
                                   id: _id,
                                   password: _pass,
                                 ),

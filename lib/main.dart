@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/constant.dart';
+import '../constant.dart';
+import 'package:medical_records_mobile/view/screens/home.dart';
 import 'package:medical_records_mobile/view/screens/loginScreen.dart';
+import 'package:medical_records_mobile/view/screens/sections/disease.dart';
+import 'package:medical_records_mobile/view/screens/sections/profile.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,13 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text("Login")),
-          backgroundColor: primaryColor,
-        ),
-        body: LoginScreen(),
-      ),
+      home: HomeScreen(id: '', password: ''),
+      routes: {
+        HomeScreen.routeID: (context) => const HomeScreen(id: '', password: ''),
+        ProfileScreen.routeID: (context) => ProfileScreen(),
+        DiseaseScreen.routeID: (context) => DiseaseScreen(),
+      },
     );
   }
 }
