@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/disease.dart';
-import 'package:medical_records_mobile/view/screens/sections/profile.dart';
+import '../screens/sections/disease.dart';
+import '../screens/sections/profile.dart';
 import '../../constant.dart';
-import '../screens/home.dart';
+import '../screens/sections/home.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
