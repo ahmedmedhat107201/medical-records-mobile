@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/loginScreen.dart';
 import '../screens/sections/disease.dart';
 import '../screens/sections/profile.dart';
 import '../../constant.dart';
@@ -40,6 +41,21 @@ class CustomDrawer extends StatelessWidget {
               title: Text("Disease"),
               onTap: () {
                 Navigator.pushNamed(context, DiseaseScreen.routeID);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text("Log Out"),
+              onTap: () async {
+                await storage.write(
+                  key: 'token',
+                  value: '',
+                );
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  LoginScreen.routeID,
+                  (route) => false,
+                );
               },
             ),
           ],

@@ -18,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     futureProfile = profile_api();
-    print("ahmed");
   }
 
   @override
@@ -142,6 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               );
+            } else if (!(snapshot.connectionState == ConnectionState.done)) {
+              return Center(child: CircularProgressIndicator());
             } else {
               return Text(snapshot.error.toString());
             }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:medical_records_mobile/constant.dart';
 
 class User {
   final String? nationalId;
@@ -54,11 +55,13 @@ class User {
 }
 
 Future<User> profile_api() async {
+  var accessToken = await storage.read(
+    key: 'token',
+  );
   final response = await http.get(
     Uri.parse('https://medical-records-server1.onrender.com/api/v1/users/me'),
     headers: <String, String>{
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImViZmQ0ZWYwLWI0MDYtNDc0Ni1iZDVjLTc0MzNlODNkMzk3MCIsIm5hdGlvbmFsSWQiOiIyMTExMTExMTExMTExMSIsIm5hbWUiOiJtb2hhbW1lZCBhaG1lZCIsImVtYWlsIjoibW9oYW1tZWQxODIwMDExOEBnbWFpbC5jb20iLCJjcmVhdGVkQXQiOiIyMDIzLTAyLTE3VDEzOjM2OjM5LjE4M1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTAyLTIzVDE4OjQyOjMyLjAzMFoiLCJnZW5kZXIiOiJNYWxlIiwiZG9iIjoiMjAwMS0wOS0yN1QwMDowMDowMC4wMDBaIiwiYXZnX21vbnRobHlfaW5jb21lIjpudWxsLCJpc19hZG1pbiI6ZmFsc2UsIndlaWdodCI6bnVsbCwiaGVpZ2h0X2NtIjpudWxsLCJpbWFnZV9zcmMiOiIvaW1hZ2VzL2RlZmF1bHRfcHAuanBnIiwibWFyaXRhbFN0YXR1c0lkIjoxNiwiZWR1Y2F0aW9uYWxMZXZlbElkIjo2LCJlbXBsb3ltZW50U3RhdHVzSWQiOjE3LCJpYXQiOjE2NzcxNzgwODcsImV4cCI6MTY3NzE4MTY4N30.S0O2m5dq31N_xHoJAS5FLM55SdxDv-3yvlI5UD0hEzw',
+      'Authorization': 'Bearer $accessToken',
     },
   );
 

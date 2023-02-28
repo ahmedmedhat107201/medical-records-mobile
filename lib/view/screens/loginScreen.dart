@@ -99,14 +99,13 @@ class LoginScreen extends StatelessWidget {
                               },
                             );
 
-                            int sc = await login_api(_id, _pass);
-                            if (sc == 200) {
-                              print("Logged");
+                            int statusCode = await login_api(_id, _pass);
+                            if (statusCode == 200) {
                               Navigator.of(context).pop();
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 HomeScreen.routeID,
-                                (r) => false,
+                                (route) => false,
                               );
                             } else {
                               Navigator.of(context).pop();

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:medical_records_mobile/constant.dart';
 
 Future login_api(String id, String password) async {
   final response = await http.post(
@@ -11,6 +12,11 @@ Future login_api(String id, String password) async {
       <String, String>{"nationalId": id, "password": password},
     ),
   );
-  print(response.body);
+  if (response.statusCode == 200) {
+    await storage.write(
+      key: 'token',
+      value: "${json.decode(response.body)['accessToken']}",
+    );
+  }
   return response.statusCode;
 }
