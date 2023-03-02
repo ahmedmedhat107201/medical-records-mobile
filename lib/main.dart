@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/splash_screen.dart';
 import '../view/screens/loginScreen.dart';
 import '../view/screens/sections/home.dart';
 import '../view/screens/sections/disease.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SplashScreen(),
       routes: {
         LoginScreen.routeID: (context) => LoginScreen(),
         HomeScreen.routeID: (context) => HomeScreen(),

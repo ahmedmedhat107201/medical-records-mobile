@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:medical_records_mobile/constant.dart';
+import '/constant.dart';
 
 class User {
   final String? nationalId;
@@ -69,6 +69,7 @@ Future<User> profile_api() async {
     return User.fromJson(jsonDecode(response.body));
   } else {
     print(response.body);
-    throw Exception('Failed to load the user');
+    return User();
+    // throw Exception('Failed to load the user');
   }
 }
