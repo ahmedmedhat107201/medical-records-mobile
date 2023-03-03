@@ -69,6 +69,6 @@ Future<User> profile_api() async {
     return User.fromJson(jsonDecode(response.body));
   } else {
     print(response.body);
-    throw Exception('Failed to load the user');
+    return User();
   }
 }

@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (token == "") {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          HomeScreen.routeID,
+          LoginScreen.routeID,
           (route) => false,
         );
       } else {
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           } else {
             Navigator.pushNamedAndRemoveUntil(
               context,
-              HomeScreen.routeID,
+              LoginScreen.routeID,
               (route) => false,
             );
           }
