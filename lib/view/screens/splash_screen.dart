@@ -19,23 +19,40 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   loading() async {
-    // var token = await storage.read(key: 'token');
-    // Timer(const Duration(seconds: 2), () {
-    var profile = await profile_api();
-    if (profile.name != null) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        HomeScreen.routeID,
-        (route) => false,
-      );
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        LoginScreen.routeID,
-        (route) => false,
-      );
-    }
-    // });
+    var token = await storage.read(key: 'token');
+
+    Timer(const Duration(seconds: 2), () async {
+      if (token == "") {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          HomeScreen.routeID,
+          (route) => false,
+        );
+      } else {
+        try {
+          var profile = await profile_api();
+          if (profile.name != null) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeScreen.routeID,
+              (route) => false,
+            );
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeScreen.routeID,
+              (route) => false,
+            );
+          }
+        } catch (e) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            LoginScreen.routeID,
+            (route) => false,
+          );
+        }
+      }
+    });
   }
 
   @override
