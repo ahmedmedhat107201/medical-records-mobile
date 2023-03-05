@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/Model/Services/profile_api.dart';
-import '/view/screens/sections/home.dart';
+import '/Model/Services/home_api.dart';
+import 'sections/homeScreen.dart';
 import '/constant.dart';
 
 import 'loginScreen.dart';
@@ -12,6 +12,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  /*
+    determin whether the access token is valid or not
+    if token is not empty
+      call the api ((sorry but I have to do this))
+      to know whether the access token is valid or not
+      if valid
+        go to home screen
+      else
+        go to login screen
+    if it's empty
+      go to the login
+  */
+
   @override
   void initState() {
     loading();
@@ -30,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       } else {
         try {
-          var profile = await profile_api();
-          if (profile.name != null) {
+          var home = await home_api();
+          if (home.name != null) {
             Navigator.pushNamedAndRemoveUntil(
               context,
               HomeScreen.routeID,
@@ -58,12 +71,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade300,
       body: Center(
-        child: Image.asset(
-          'assets/images/logo.jpg',
-          width: 150,
-          height: 150,
+        child: Material(
+          child: Image.asset(
+            '$imagePath/logo.png',
+            width: 150,
+            height: 150,
+          ),
+          // elevation: 5,
+          color: Colors.transparent,
         ),
       ),
     );

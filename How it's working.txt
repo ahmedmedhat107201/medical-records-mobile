@@ -1,0 +1,15 @@
+Splash Screen
+    token valid => Home screen
+    token not valid => Login Screen
+
+LoginScreen()
+    it uses the login_api() to login
+
+login_api() 
+    create access token and save it into storage
+
+home_api()
+    get profile data from api using the access token from storage
+
+HomeScreen()
+    display all the data using home_api() method

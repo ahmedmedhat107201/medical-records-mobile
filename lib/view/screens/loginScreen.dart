@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import '/Model/Services/login_api.dart';
 import '/constant.dart';
-import '/view/screens/sections/home.dart';
+import 'sections/homeScreen.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatelessWidget {
+  /*
+    ui of the login screen with all the textFields validations
+    call login_api() 
+  */
+
   static final String routeID = "/loginScreen";
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       //Logo
                       Image.asset(
-                        'assets/images/logo.jpg',
+                        '$imagePath/logo.png',
                         width: double.infinity,
                         height: 150,
                       ),

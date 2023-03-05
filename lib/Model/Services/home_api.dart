@@ -54,18 +54,23 @@ class User {
   }
 }
 
-Future<User> profile_api() async {
+Future<User> home_api() async {
   var accessToken = await storage.read(
     key: 'token',
   );
   final response = await http.get(
-    Uri.parse('https://medical-records-server1.onrender.com/api/v1/users/me'),
+    Uri.parse('$baseUrl/users/me'),
     headers: <String, String>{
       'Authorization': 'Bearer $accessToken',
     },
   );
 
   if (response.statusCode == 200) {
+    var user = await User.fromJson(jsonDecode(response.body));
+
+    await storage.write(key: 'userName', value: await user.name);
+    await storage.write(key: 'userNatId', value: await user.nationalId);
+    await storage.write(key: 'userImage', value: await user.image_src);
     return User.fromJson(jsonDecode(response.body));
   } else {
     print(response.body);
