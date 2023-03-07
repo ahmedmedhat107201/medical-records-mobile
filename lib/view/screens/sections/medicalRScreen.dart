@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/constant.dart';
-import 'package:medical_records_mobile/view/widgets/custom_button.dart';
 import 'package:medical_records_mobile/view/widgets/custom_drawer.dart';
 
 class MedicalRecordScreen extends StatefulWidget {
@@ -9,7 +8,7 @@ class MedicalRecordScreen extends StatefulWidget {
   @override
   State<MedicalRecordScreen> createState() => MedicalRecordState();
 }
-
+//..
 class MedicalRecordState extends State<MedicalRecordScreen> {
   var selectedrecord = "All Records";
   List<String> MedicalRecords = [
