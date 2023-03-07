@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constant.dart';
 import '../screens/sections/diseaseScreen.dart';
 import '../screens/sections/homeScreen.dart';
+import '../screens/sections/madicalRecord.dart';
 import '/view/screens/loginScreen.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -48,9 +49,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
   void initState() {
     super.initState();
 
-    // if (user == null) {
-    fetch();
-    // }
+    if (user == null) {
+      fetch();
+    }
   }
 
   @override
@@ -66,8 +67,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       decoration: BoxDecoration(
                         color: primaryColor,
                       ),
-                      currentAccountPicture: CircleAvatar(
-                        backgroundColor: Colors.green,
+                      currentAccountPicture: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: user!.imgSrc == null
+                            ? Image.asset(
+                                '$imagePath/default.png',
+                              )
+                            : Image.network('${user!.imgSrc}'),
                       ),
                       accountEmail: Text("${user!.nationalId}"),
                       accountName: Text("${user!.name}"),
@@ -87,8 +96,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       leading: Icon(Icons.emoji_emotions_rounded),
                       title: Text("Disease"),
                       onTap: () {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         Navigator.pushNamed(context, DiseaseScreen.routeID);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.medical_information_rounded),
+                      title: Text("Medical Record"),
+                      onTap: () {
+                        print("sssssssss");
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          MedicalRecordScreen.routeID,
+                          (route) => false,
+                        );
                       },
                     ),
                     ListTile(
