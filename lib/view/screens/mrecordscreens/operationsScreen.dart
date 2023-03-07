@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/Model/Services/home_api.dart';
 import 'package:medical_records_mobile/constant.dart';
-import 'package:medical_records_mobile/view/screens/sections/madicalRecord.dart';
+
+import '../sections/madicalRecordOld.dart';
 
 class Operation extends StatelessWidget {
   static final String routeID = '/operation';
@@ -19,7 +20,7 @@ class Operation extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MedicalRecordScreen()));
+                        builder: (context) => MedicalRecordScreenOld()));
               },
               icon: Icon(Icons.arrow_back),
             )),

@@ -5,7 +5,7 @@ import '../../../constant.dart';
 import '../../widgets/custom_MedicalRecordButton.dart';
 import '../../widgets/custom_drawer.dart';
 
-class MedicalRecordScreen extends StatelessWidget {
+class MedicalRecordScreenOld extends StatelessWidget {
   static final String routeID = '/diseaseScreen';
   @override
   Widget build(BuildContext context) {

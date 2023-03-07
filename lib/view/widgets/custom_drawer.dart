@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/sections/medicalRScreen.dart';
 import '../../constant.dart';
 import '../screens/sections/diseaseScreen.dart';
 import '../screens/sections/homeScreen.dart';
-import '../screens/sections/madicalRecord.dart';
+
 import '/view/screens/loginScreen.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -104,12 +105,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       leading: Icon(Icons.medical_information_rounded),
                       title: Text("Medical Record"),
                       onTap: () {
-                        print("sssssssss");
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          MedicalRecordScreen.routeID,
-                          (route) => false,
-                        );
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                            context, MedicalRecordScreen.routeID);
                       },
                     ),
                     ListTile(
