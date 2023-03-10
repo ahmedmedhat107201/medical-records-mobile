@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   User? user;
   bool load = false;
+
   void fetch() async {
     setState(() {
       load = true;

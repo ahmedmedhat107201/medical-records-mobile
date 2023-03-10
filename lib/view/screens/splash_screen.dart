@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         try {
           var home = await home_api();
-          if (home.name != null) {
+          if (home.nationalId != null) {
             Navigator.pushNamedAndRemoveUntil(
               context,
               HomeScreen.routeID,

@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/medicalRScreen.dart';
+import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
 import '../../constant.dart';
 import '../screens/sections/diseaseScreen.dart';
 import '../screens/sections/homeScreen.dart';
