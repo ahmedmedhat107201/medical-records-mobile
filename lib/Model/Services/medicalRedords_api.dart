@@ -46,7 +46,7 @@ class MedicalRecordApi {
       lifetime: json['lifetime'],
       actionType: json['actionType'],
       // doctor: json['doctor'] != null
-      //     ? MedicalRecordDoctor.fromJson(json['doctor'] as Map<String, dynamic>)
+      // ? MedicalRecordDoctor.fromJson(json['doctor'] as Map<String, dynamic>)
       //     : null,
     );
   }
@@ -98,7 +98,14 @@ class MedicalRecordDoctor {
 
 Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
   var accessToken = await storage.read(key: 'token');
-  var params = {"actionType": actionType == '' ? null : actionType};
+
+  Map<String, dynamic> params = {};
+
+  if (actionType == '' || actionType == 'All Records') {
+    params = {};
+  } else if (actionType != '') {
+    params = {"actionType": actionType};
+  }
 
   Uri uri = Uri.parse('$baseUrl/records');
   final finalUri = uri.replace(queryParameters: params);

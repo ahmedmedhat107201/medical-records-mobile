@@ -3,7 +3,6 @@ import '/Model/Services/login_api.dart';
 import '/constant.dart';
 import 'sections/homeScreen.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/custom_text.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -77,17 +76,7 @@ class LoginScreen extends StatelessWidget {
                         text: "Password",
                         isHiden: true,
                       ),
-                      SizedBox(height: 20),
-                      //Forget Password
-                      GestureDetector(
-                        child: CustomText(
-                          alignment: Alignment.topRight,
-                          text: "Forget Password ?",
-                          color: Colors.black54,
-                        ),
-                        onTap: () {},
-                      ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 40),
                       //Sign In Button
                       CustomButton(
                         text: "SIGN IN",

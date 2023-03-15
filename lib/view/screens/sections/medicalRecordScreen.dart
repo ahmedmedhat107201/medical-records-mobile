@@ -79,7 +79,7 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                             selectedrecord = '$value';
                             print(value);
                             if (value == 'All Records') {
-                              fetch('');
+                              fetch('All Records');
                             } else {
                               fetch(value);
                             }
@@ -95,149 +95,152 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                   //   medicalRecord: medicalRecord,
                   // ),
                   Expanded(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: medicalRecord!.length,
-                      scrollDirection: Axis.vertical,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 20,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        var data = medicalRecord![index]!;
-                        return Container(
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: MaterialButton(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("${data.actionType}"),
-                                SizedBox(
-                                  width: 10,
+                    child: medicalRecord!.isEmpty
+                        ? Center(
+                            child: Text('No data in $selectedrecord'),
+                          )
+                        : ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: medicalRecord!.length,
+                            scrollDirection: Axis.vertical,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 20,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = medicalRecord![index]!;
+                              return Container(
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                Text("${formateDateTime(
-                                  data.createdAt.toString(),
-                                )}"),
-                              ],
-                            ),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(30),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => Container(
-                                  margin: EdgeInsets.all(20),
-                                  height: 500,
-                                  child: ListView(
-                                    // shrinkWrap: true,
+                                child: MaterialButton(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(
-                                        child: Text(
-                                          '${data.actionType}',
-                                          style: TextStyle(
-                                            color: primaryColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                      Text("${data.actionType}"),
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                      Card(
-                                        color: primaryColor,
-                                        child: ListTile(
-                                          leading: Text("title"),
-                                          title: Text(
-                                            "${data.title}",
-                                          ),
-                                        ),
-                                      ),
-                                      Card(
-                                        color: primaryColor,
-                                        child: ListTile(
-                                          leading: Text("Time Created"),
-                                          title: Text(
-                                            "${formateDateTime(
-                                              data.createdAt.toString(),
-                                            )},",
-                                          ),
-                                        ),
-                                      ),
-                                      Card(
-                                        color: primaryColor,
-                                        child: ListTile(
-                                          leading:
-                                              Text("is it life time disease?"),
-                                          title: Text(
-                                            '${data.lifetime}',
-                                          ),
-                                        ),
-                                      ),
-                                      ListView(
-                                        shrinkWrap: true,
-                                        children: [
-                                          Card(
-                                            color: primaryColor,
-                                            child: ListTile(
-                                              leading: Text("sssss"),
-                                              title: Text(
-                                                '${data.lifetime}',
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: primaryColor,
-                                            child: ListTile(
-                                              leading: Text("ssssssssss"),
-                                              title: Text(
-                                                '${data.lifetime}',
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: primaryColor,
-                                            child: ListTile(
-                                              leading: Text("ssssssssss"),
-                                              title: Text(
-                                                '${data.lifetime}',
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: primaryColor,
-                                            child: ListTile(
-                                              leading: Text("ssssssssss"),
-                                              title: Text(
-                                                '${data.lifetime}',
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: primaryColor,
-                                            child: ListTile(
-                                              leading: Text("ssssssssss"),
-                                              title: Text(
-                                                '${data.lifetime}',
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      Text("${formateDateTime(
+                                        data.createdAt.toString(),
+                                      )}"),
                                     ],
                                   ),
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(30),
+                                        ),
+                                      ),
+                                      context: context,
+                                      builder: (context) => Container(
+                                        margin: EdgeInsets.all(20),
+                                        height: 500,
+                                        child: ListView(
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                '${data.actionType}',
+                                                style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            Card(
+                                              color: primaryColor,
+                                              child: ListTile(
+                                                leading: Text("title"),
+                                                title: Text(
+                                                  "${data.title}",
+                                                ),
+                                              ),
+                                            ),
+                                            Card(
+                                              color: primaryColor,
+                                              child: ListTile(
+                                                leading: Text("Time Created"),
+                                                title: Text(
+                                                  "${formateDateTime(
+                                                    data.createdAt.toString(),
+                                                  )},",
+                                                ),
+                                              ),
+                                            ),
+                                            Card(
+                                              color: primaryColor,
+                                              child: ListTile(
+                                                leading: Text(
+                                                    "is it life time disease?"),
+                                                title: Text(
+                                                  '${data.lifetime}',
+                                                ),
+                                              ),
+                                            ),
+                                            Column(
+                                              children: [
+                                                Card(
+                                                  color: primaryColor,
+                                                  child: ListTile(
+                                                    leading: Text("sssss"),
+                                                    title: Text(
+                                                      '${data.details![2].value}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Card(
+                                                  color: primaryColor,
+                                                  child: ListTile(
+                                                    leading: Text("ssssssssss"),
+                                                    title: Text(
+                                                      '${data.lifetime}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Card(
+                                                  color: primaryColor,
+                                                  child: ListTile(
+                                                    leading: Text("ssssssssss"),
+                                                    title: Text(
+                                                      '${data.lifetime}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Card(
+                                                  color: primaryColor,
+                                                  child: ListTile(
+                                                    leading: Text("ssssssssss"),
+                                                    title: Text(
+                                                      '${data.lifetime}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Card(
+                                                  color: primaryColor,
+                                                  child: ListTile(
+                                                    leading: Text("ssssssssss"),
+                                                    title: Text(
+                                                      '${data.lifetime}',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               );
                             },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ],
               ),
