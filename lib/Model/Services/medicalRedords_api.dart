@@ -10,7 +10,7 @@ class MedicalRecordApi {
   List<MedicalRecordDetail>? details;
   String? doctorId;
   String? createdAt;
-  DateTime? updatedAt;
+  String? updatedAt;
   bool? lifetime;
   String? actionType;
   MedicalRecordDoctor? doctor;
