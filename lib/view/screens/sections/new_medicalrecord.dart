@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/constant.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
 import 'package:medical_records_mobile/view/widgets/custom_text_form_field.dart';
-import 'package:medical_records_mobile/view/widgets/medicaltextformfield.dart';
+import 'package:medical_records_mobile/view/widgets/medicalrecordformfield.dart';
 
 class NewMedicalRecord extends StatelessWidget {
   TextEditingController title = TextEditingController();
