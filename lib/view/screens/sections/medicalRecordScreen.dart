@@ -158,173 +158,155 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                                             ),
                                             Expanded(
                                               child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemBuilder: (
-                                                  BuildContext context,
-                                                  int index,
-                                                ) {
-                                                  return Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 20,
                                                         ),
-                                                        child: Column(
-                                                          children: [
-                                                            Card(
-                                                              color:
-                                                                  primaryColor,
-                                                              child: ListTile(
-                                                                leading: Text(
-                                                                    "Title"),
-                                                                title: Text(
-                                                                  "${data.title}",
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Card(
-                                                              color:
-                                                                  primaryColor,
-                                                              child: ListTile(
-                                                                leading: Text(
-                                                                    "Time Created"),
-                                                                title: Text(
-                                                                  "${formateDateTime(
-                                                                    data.createdAt
-                                                                        .toString(),
-                                                                  )},",
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Card(
-                                                              color:
-                                                                  primaryColor,
-                                                              child: ListTile(
-                                                                leading: Text(
-                                                                    "Life Time"),
-                                                                title: Text(
-                                                                  '${data.lifetime}',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            MaterialButton(
-                                                              onPressed: () {
-                                                                showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (context) =>
-                                                                          AlertDialog(
-                                                                    content:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          height:
-                                                                              30,
-                                                                        ),
-                                                                        Text(
-                                                                          "${data.details![2].value}",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                primaryColor,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                'Details',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        primaryColor,
-                                                                    fontSize:
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
                                                                         15),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            MaterialButton(
-                                                              onPressed: () {
-                                                                showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (context) =>
-                                                                          AlertDialog(
-                                                                    content:
-                                                                        Container(
-                                                                      height:
-                                                                          70,
-                                                                      child: Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.start,
-                                                                          children: [
-                                                                            SizedBox(
-                                                                              width: 25,
-                                                                            ),
-                                                                            CircleAvatar(
-                                                                              child: Text("${data.doctor?.image_src}"),
-                                                                              radius: 50,
-                                                                            ),
-                                                                            Column(
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  height: 18,
-                                                                                ),
-                                                                                Text("${data.doctor?.name}",
-                                                                                    style: TextStyle(
-                                                                                      color: primaryColor,
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                    )),
-                                                                                Text("${data.doctor?.medicalSpecialization}",
-                                                                                    style: TextStyle(
-                                                                                      color: primaryColor,
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                    )),
-                                                                              ],
-                                                                            )
-                                                                          ]),
-                                                                    ),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Card(
+                                                                color:
+                                                                    primaryColor,
+                                                                child: ListTile(
+                                                                  leading: Text(
+                                                                      "Title"),
+                                                                  title: Text(
+                                                                    "${data.title}",
                                                                   ),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                'Doctor',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontSize: 15,
                                                                 ),
                                                               ),
-                                                            )
-                                                          ],
+                                                              Card(
+                                                                color:
+                                                                    primaryColor,
+                                                                child: ListTile(
+                                                                  leading: Text(
+                                                                      "Time Created"),
+                                                                  title: Text(
+                                                                    "${formateDateTime(
+                                                                      data.createdAt
+                                                                          .toString(),
+                                                                    )},",
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Card(
+                                                                color:
+                                                                    primaryColor,
+                                                                child: ListTile(
+                                                                  leading: Text(
+                                                                      "Life Time"),
+                                                                  title: Text(
+                                                                    '${data.lifetime}',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              MaterialButton(
+                                                                onPressed: () {
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder: (context) =>
+                                                                          AlertDialog(
+                                                                              content: Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                height: 30,
+                                                                              ),
+                                                                              Text("${data.details![2].value}",
+                                                                                  style: TextStyle(
+                                                                                    color: primaryColor,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                  )),
+                                                                            ],
+                                                                          )));
+                                                                },
+                                                                child: Text(
+                                                                  'Details',
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      fontSize:
+                                                                          15),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              MaterialButton(
+                                                                onPressed: () {
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder: (context) =>
+                                                                          AlertDialog(
+                                                                              content: Container(
+                                                                            height:
+                                                                                70,
+                                                                            child:
+                                                                                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                                              SizedBox(
+                                                                                width: 25,
+                                                                              ),
+                                                                              CircleAvatar(
+                                                                                child: Text("${data.doctor?.image_src}"),
+                                                                                radius: 50,
+                                                                              ),
+                                                                              Column(
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    height: 18,
+                                                                                  ),
+                                                                                  Text("${data.doctor?.name}",
+                                                                                      style: TextStyle(
+                                                                                        color: primaryColor,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      )),
+                                                                                  Text("${data.doctor?.medicalSpecialization}",
+                                                                                      style: TextStyle(
+                                                                                        color: primaryColor,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      )),
+                                                                                ],
+                                                                              )
+                                                                            ]),
+                                                                          )));
+                                                                },
+                                                                child: Text(
+                                                                  'Doctor',
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      fontSize:
+                                                                          15),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                                itemCount: 1,
-                                              ),
+                                                      ],
+                                                    );
+                                                  },
+                                                  itemCount: 1),
                                             ),
                                           ],
                                         ),
