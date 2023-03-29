@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
 import '../../constant.dart';
-import '../screens/sections/diseaseScreen.dart';
 import '../screens/sections/homeScreen.dart';
 
 import '/view/screens/loginScreen.dart';
@@ -77,7 +75,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             ? Image.asset(
                                 '$imagePath/default.png',
                               )
-                            : Image.network('${user!.imgSrc}'),
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  '${user!.imgSrc}',
+                                ),
+                              ),
                       ),
                       accountEmail: Text("${user!.nationalId}"),
                       accountName: Text("${user!.name}"),
@@ -91,14 +93,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           HomeScreen.routeID,
                           (route) => false,
                         );
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.emoji_emotions_rounded),
-                      title: Text("Disease"),
-                      onTap: () {
-                        // Navigator.pop(context);
-                        Navigator.pushNamed(context, DiseaseScreen.routeID);
                       },
                     ),
                     ListTile(

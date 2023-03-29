@@ -4,7 +4,7 @@ import 'package:medical_records_mobile/view/widgets/custom_drawer.dart';
 import '/Model/Services/medicalRedords_api.dart';
 
 class MedicalRecordScreen extends StatefulWidget {
-  static final String routeID = "/MedicalRecordScreen";
+  static final String routeID = "/medicalRecordScreen";
   @override
   State<MedicalRecordScreen> createState() => MedicalRecordState();
 }
@@ -32,7 +32,7 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
     }
   }
 
-  var selectedrecord = "All Records";
+  var selectedRecord = "All Records";
   List<String> actionTypeList = [
     "All Records",
     "Birth",
@@ -62,9 +62,12 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
+                  //
+                  // dropDownList
+                  //
                   Container(
                     child: DropdownButtonFormField(
-                      value: selectedrecord,
+                      value: selectedRecord,
                       items: actionTypeList.map(
                         (e) {
                           return DropdownMenuItem(
@@ -76,7 +79,7 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                       onChanged: (value) {
                         setState(
                           () {
-                            selectedrecord = '$value';
+                            selectedRecord = '$value';
                             print(value);
                             if (value == 'All Records') {
                               fetch('All Records');
@@ -88,16 +91,14 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  // MedicalRecordListView(
-                  //   medicalRecord: medicalRecord,
-                  // ),
+                  SizedBox(height: 30),
+                  //
+                  // List Of Records
+                  //
                   Expanded(
                     child: medicalRecord!.isEmpty
                         ? Center(
-                            child: Text('No data in $selectedrecord'),
+                            child: Text('No data in $selectedRecord'),
                           )
                         : ListView.separated(
                             shrinkWrap: true,
@@ -105,12 +106,13 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                             scrollDirection: Axis.vertical,
                             separatorBuilder:
                                 (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 20,
-                              );
+                              return SizedBox(height: 20);
                             },
                             itemBuilder: (BuildContext context, int index) {
                               var data = medicalRecord![index]!;
+                              //
+                              // single medical record
+                              //
                               return Container(
                                 height: 70,
                                 decoration: BoxDecoration(
@@ -118,19 +120,21 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: MaterialButton(
+                                  textColor: Colors.white,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text("${data.actionType}"),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
+                                      SizedBox(width: 10),
                                       Text("${formateDateTime(
                                         data.createdAt.toString(),
                                       )}"),
                                     ],
                                   ),
                                   onPressed: () {
+                                    //
+                                    // modal bottom sheet
+                                    //
                                     showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.vertical(
@@ -138,178 +142,8 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                                         ),
                                       ),
                                       context: context,
-                                      builder: (context) => Container(
-                                        margin: EdgeInsets.all(20),
-                                        height: 500,
-                                        child: Column(
-                                          children: [
-                                            Center(
-                                              child: Text(
-                                                '${data.actionType}',
-                                                style: TextStyle(
-                                                  color: primaryColor,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 15,
-                                            ),
-                                            Expanded(
-                                              child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return Column(
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                          ),
-                                                          child: Column(
-                                                            children: [
-                                                              Card(
-                                                                color:
-                                                                    primaryColor,
-                                                                child: ListTile(
-                                                                  leading: Text(
-                                                                      "Title"),
-                                                                  title: Text(
-                                                                    "${data.title}",
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Card(
-                                                                color:
-                                                                    primaryColor,
-                                                                child: ListTile(
-                                                                  leading: Text(
-                                                                      "Time Created"),
-                                                                  title: Text(
-                                                                    "${formateDateTime(
-                                                                      data.createdAt
-                                                                          .toString(),
-                                                                    )},",
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Card(
-                                                                color:
-                                                                    primaryColor,
-                                                                child: ListTile(
-                                                                  leading: Text(
-                                                                      "Life Time"),
-                                                                  title: Text(
-                                                                    '${data.lifetime}',
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              MaterialButton(
-                                                                onPressed: () {
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder: (context) =>
-                                                                          AlertDialog(
-                                                                              content: Column(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                height: 30,
-                                                                              ),
-                                                                              Text("${data.details![2].value}",
-                                                                                  style: TextStyle(
-                                                                                    color: primaryColor,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                  )),
-                                                                            ],
-                                                                          )));
-                                                                },
-                                                                child: Text(
-                                                                  'Details',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          primaryColor,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              MaterialButton(
-                                                                onPressed: () {
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder: (context) =>
-                                                                          AlertDialog(
-                                                                              content: Container(
-                                                                            height:
-                                                                                70,
-                                                                            child:
-                                                                                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                                              SizedBox(
-                                                                                width: 25,
-                                                                              ),
-                                                                              CircleAvatar(
-                                                                                child: Text("${data.doctor?.image_src}"),
-                                                                                radius: 50,
-                                                                              ),
-                                                                              Column(
-                                                                                children: [
-                                                                                  SizedBox(
-                                                                                    height: 18,
-                                                                                  ),
-                                                                                  Text("${data.doctor?.name}",
-                                                                                      style: TextStyle(
-                                                                                        color: primaryColor,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                      )),
-                                                                                  Text("${data.doctor?.medicalSpecialization}",
-                                                                                      style: TextStyle(
-                                                                                        color: primaryColor,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                      )),
-                                                                                ],
-                                                                              )
-                                                                            ]),
-                                                                          )));
-                                                                },
-                                                                child: Text(
-                                                                  'Doctor',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          primaryColor,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                  itemCount: 1),
-                                            ),
-                                          ],
-                                        ),
+                                      builder: (context) => BottomSheet(
+                                        data: data,
                                       ),
                                     );
                                   },
@@ -325,106 +159,191 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
   }
 }
 
-class MedicalRecordListView extends StatelessWidget {
-  const MedicalRecordListView({
-    required this.medicalRecord,
+class BottomSheet extends StatelessWidget {
+  const BottomSheet({
+    required this.data,
   });
 
-  final List<MedicalRecordApi?>? medicalRecord;
+  final MedicalRecordApi data;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: medicalRecord!.length,
-        scrollDirection: Axis.vertical,
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            height: 20,
-          );
-        },
-        itemBuilder: (BuildContext context, int index) {
-          var data = medicalRecord![index]!;
-          return Container(
-            height: 70,
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: BorderRadius.circular(10),
+    return Container(
+      margin: EdgeInsets.all(20),
+      height: 500,
+      child: Column(
+        children: [
+          Center(
+            child: Text(
+              '${data.actionType}',
+              style: TextStyle(
+                color: primaryColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            child: MaterialButton(
+          ),
+          SizedBox(height: 25),
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${data.actionType}"),
-                  SizedBox(
-                    width: 10,
+                  //
+                  // medical cards
+                  //
+                  MedicalRecordCard(
+                    title: 'Title',
+                    text: '${data.title}',
                   ),
-                  Text("${formateDateTime(
-                    data.createdAt.toString(),
-                  )}"),
+                  MedicalRecordCard(
+                    title: 'Time Created',
+                    text: formateDateTime(data.createdAt.toString()),
+                  ),
+                  MedicalRecordCard(
+                    title: 'Life Time',
+                    text: data.lifetime.toString(),
+                  ),
+                  //
+                  // details button
+                  //
+                  MaterialButton(
+                    child: Text(
+                      'Details',
+                      style: TextStyle(color: primaryColor, fontSize: 15),
+                    ),
+                    onPressed: () {
+                      var details = data.details;
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          scrollable: true,
+                          content: details!.isEmpty
+                              ? Text('No Details for this patient')
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: details.length,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      color: primaryColor,
+                                      child: ListTile(
+                                        textColor: Colors.white,
+                                        leading: Text("${details[index].key}"),
+                                        title: Text(
+                                          "${details[index].value}",
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                      );
+                    },
+                  ),
+                  //
+                  // doctor button
+                  //
+                  MaterialButton(
+                    child: Text(
+                      'Doctor',
+                      style: TextStyle(color: primaryColor, fontSize: 15),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: Container(
+                            height: 70,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: data.doctor!.image_src == null
+                                      ? Image.asset(
+                                          '$imagePath/default.png',
+                                        )
+                                      : CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              '${data.doctor!.image_src}'),
+                                        ),
+                                ),
+                                SizedBox(width: 25),
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    Text(
+                                      "${data.doctor?.name}",
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${data.doctor?.medicalSpecialization}",
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
-              onPressed: () {
-                showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
-                    ),
-                  ),
-                  context: context,
-                  builder: (context) => Container(
-                    margin: EdgeInsets.all(20),
-                    height: 500,
-                    child: ListView(
-                      children: [
-                        Center(
-                          child: Text(
-                            '${data.actionType}',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: primaryColor,
-                          child: ListTile(
-                            leading: Text("title"),
-                            title: Text(
-                              "${data.title}",
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: primaryColor,
-                          child: ListTile(
-                            leading: Text("Time Created"),
-                            title: Text(
-                              "${formateDateTime(
-                                data.createdAt.toString(),
-                              )},",
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: primaryColor,
-                          child: ListTile(
-                            leading: Text("is it life time disease?"),
-                            title: Text(
-                              '${data.lifetime}',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
             ),
-          );
-        },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MedicalRecordCard extends StatelessWidget {
+  const MedicalRecordCard({this.title, this.text});
+
+  final String? title;
+  final String? text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      child: Card(
+        color: primaryColor,
+        child: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Text(
+                "$title",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Text(
+                "${text}",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

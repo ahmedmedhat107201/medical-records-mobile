@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/constant.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
-import 'package:medical_records_mobile/view/widgets/custom_text_form_field.dart';
-import 'package:medical_records_mobile/view/widgets/medicalrecordformfield.dart';
+import 'package:medical_records_mobile/view/widgets/medicalRecord_text_form_field.dart';
 
-class NewMedicalRecord extends StatelessWidget {
-  TextEditingController title = TextEditingController();
-  TextEditingController lifetime = TextEditingController();
-  TextEditingController actiontype = TextEditingController();
-  TextEditingController createdat = TextEditingController();
-  TextEditingController updatedat = TextEditingController();
-  TextEditingController doctorid = TextEditingController();
-  TextEditingController doctorname = TextEditingController();
-  TextEditingController doctorspecialization = TextEditingController();
-  var formkey = GlobalKey<FormState>();
-  static final String routeID = "/NewMedicalRecord";
+class CreateMedicalRecordScreen extends StatelessWidget {
+  static final String routeID = "/createMedicalRecordScreen";
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    TextEditingController title = TextEditingController();
+    TextEditingController lifetime = TextEditingController();
+    TextEditingController actiontype = TextEditingController();
+    TextEditingController createdat = TextEditingController();
+    TextEditingController updatedat = TextEditingController();
+    TextEditingController doctorid = TextEditingController();
+    TextEditingController doctorname = TextEditingController();
+    TextEditingController doctorspecialization = TextEditingController();
+    var formkey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: Center(child: Text('New Medical Record')),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, MedicalRecordScreen.routeID);
-              },
-              icon: Icon(Icons.arrow_back))),
+        backgroundColor: primaryColor,
+        title: Center(child: Text('New Medical Record')),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MedicalRecordScreen.routeID);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -190,8 +191,10 @@ class NewMedicalRecord extends StatelessWidget {
                     ),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                       backgroundColor:
                           MaterialStateProperty.all<Color>(primaryColor!),
                     ),

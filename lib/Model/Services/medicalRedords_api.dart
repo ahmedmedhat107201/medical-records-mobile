@@ -42,18 +42,15 @@ class MedicalRecordApi {
           : null,
       doctorId: json['doctorId'],
       createdAt: json['createdAt'],
-       //updatedAt: json['updatedAt'],
+      //updatedAt: json['updatedAt'],
       lifetime: json['lifetime'],
       actionType: json['actionType'],
-         doctor: json['doctor'] != null
-       ? MedicalRecordDoctor.fromJson(json['doctor'] as Map<String, dynamic>)
-      : null,
-
+      doctor: json['doctor'] != null
+          ? MedicalRecordDoctor.fromJson(json['doctor'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
-
-
 
 class MedicalRecordDetail {
   String? key;
@@ -65,7 +62,6 @@ class MedicalRecordDetail {
     required this.value,
   });
 
-
   factory MedicalRecordDetail.fromJson(Map<String, dynamic> json) {
     return MedicalRecordDetail(
       key: json['key'],
@@ -75,12 +71,9 @@ class MedicalRecordDetail {
   }
 }
 
-
-
-
 class MedicalRecordDoctor {
   String? id;
-  dynamic? name;
+  String? name;
   String? email;
   String? image_src;
   String? medicalSpecialization;
@@ -125,7 +118,7 @@ Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
   );
   if (response.statusCode == 200) {
     print(response.body);
-    List  jsonResponse = jsonDecode(response.body);
+    List jsonResponse = jsonDecode(response.body);
     return jsonResponse.map((data) => MedicalRecordApi.fromJson(data)).toList();
   } else {
     print(response.body);

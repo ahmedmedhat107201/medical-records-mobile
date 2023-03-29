@@ -50,9 +50,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           validator: widget.validator!,
           onChanged: widget.onChanged!,
           decoration: InputDecoration(
-            // border: OutlineInputBorder(
-            //   borderRadius: BorderRadius.all(Radius.circular(15)),
-            // ),
             suffixIcon: widget.isHiden!
                 ? GestureDetector(
                     child: Icon(
