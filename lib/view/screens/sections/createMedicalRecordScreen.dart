@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/constant.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
@@ -16,6 +18,16 @@ class CreateMedicalRecordScreen extends StatelessWidget {
     TextEditingController doctorname = TextEditingController();
     TextEditingController doctorspecialization = TextEditingController();
     var formkey = GlobalKey<FormState>();
+
+    Future chooseanimage() async {
+      final XFile? image =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+    }
+
+    Future takeanimage() async {
+      final XFile? photo =
+          await ImagePicker().pickImage(source: ImageSource.camera);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -148,14 +160,94 @@ class CreateMedicalRecordScreen extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                content: Container(
+                                  height: 110,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      MaterialButton(
+                                          onPressed: () {
+                                            takeanimage();
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.camera_alt_outlined,
+                                                color: primaryColor,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                "Camera",
+                                                style: TextStyle(
+                                                    color: primaryColor),
+                                              )
+                                            ],
+                                          )),
+                                      MaterialButton(
+                                          onPressed: () {
+                                            chooseanimage();
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.image,
+                                                color: primaryColor,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                "Gallerry",
+                                                style: TextStyle(
+                                                    color: primaryColor),
+                                              )
+                                            ],
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              ));
+                    },
+                    child: Text(
+                      "Upload Doctor Image",
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(primaryColor!),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.note_alt_sharp),
+                    Icon(
+                      Icons.note_alt_sharp,
+                      color: primaryColor,
+                    ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text("Details"),
+                    Text(
+                      "Details",
+                      style: TextStyle(color: primaryColor),
+                    ),
                   ],
                 ),
                 SizedBox(
