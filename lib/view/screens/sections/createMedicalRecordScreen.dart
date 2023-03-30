@@ -29,7 +29,7 @@ class CreateMedicalRecordScreen extends StatelessWidget {
           await ImagePicker().pickImage(source: ImageSource.camera);
     }
 
-    Future uploadingfiles()async{
+    Future uploadingfiles() async {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -270,15 +270,18 @@ class CreateMedicalRecordScreen extends StatelessWidget {
                         TextFormField(
                           maxLines: 20,
                           keyboardType: TextInputType.text,
-
                         ),
-                        MaterialButton(onPressed: (){
-                          uploadingfiles();
-                        },child:Text("Upload Attachment", style: TextStyle(color: primaryColor),) ,)
+                        MaterialButton(
+                          onPressed: () {
+                            uploadingfiles();
+                          },
+                          child: Text(
+                            "Upload Attachments",
+                            style: TextStyle(color: primaryColor),
+                          ),
+                        )
                       ],
-                    )
-
-                ),
+                    )),
                 SizedBox(
                   height: 10,
                 ),
