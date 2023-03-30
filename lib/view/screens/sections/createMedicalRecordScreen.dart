@@ -1,5 +1,5 @@
 import 'package:image_picker/image_picker.dart';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/constant.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
@@ -27,6 +27,13 @@ class CreateMedicalRecordScreen extends StatelessWidget {
     Future takeanimage() async {
       final XFile? photo =
           await ImagePicker().pickImage(source: ImageSource.camera);
+    }
+
+    Future uploadingfiles()async{
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'pdf', 'doc'],
+      );
     }
 
     return Scaffold(
@@ -258,10 +265,20 @@ class CreateMedicalRecordScreen extends StatelessWidget {
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextFormField(
-                      maxLines: 20,
-                      keyboardType: TextInputType.text,
-                    )),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          maxLines: 20,
+                          keyboardType: TextInputType.text,
+
+                        ),
+                        MaterialButton(onPressed: (){
+                          uploadingfiles();
+                        },child:Text("Upload Attachment", style: TextStyle(color: primaryColor),) ,)
+                      ],
+                    )
+
+                ),
                 SizedBox(
                   height: 10,
                 ),
