@@ -10,6 +10,7 @@ class User {
   final String? updatedAt;
   final int? avg_monthly_income;
   final String? dob;
+  final String? medicalSpecialization;
   final String? educationalLevel;
   final String? employmentStatus;
   final String? maritalStatus;
@@ -23,6 +24,7 @@ class User {
     this.createdAt,
     this.updatedAt,
     this.avg_monthly_income,
+    this.medicalSpecialization,
     this.educationalLevel,
     this.employmentStatus,
     this.maritalStatus,
@@ -50,6 +52,7 @@ class User {
       weight: json['weight'],
       height_cm: json['height_cm'],
       email: json['email'],
+      medicalSpecialization: json['medicalSpecialization'],
     );
   }
 }
@@ -58,6 +61,7 @@ Future<User> home_api() async {
   var accessToken = await storage.read(
     key: 'token',
   );
+  globalToken = accessToken;
   final response = await http.get(
     Uri.parse('$baseUrl/users/me'),
     headers: <String, String>{
@@ -73,7 +77,6 @@ Future<User> home_api() async {
     await storage.write(key: 'userImage', value: await user.image_src);
     return User.fromJson(jsonDecode(response.body));
   } else {
-    print(response.body);
     return User();
   }
 }

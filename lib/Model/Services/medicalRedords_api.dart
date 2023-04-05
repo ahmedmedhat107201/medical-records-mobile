@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import '../../constant.dart';
 
 class MedicalRecordApi {
@@ -50,6 +52,16 @@ class MedicalRecordApi {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'userId': userId,
+      'title': title,
+      'details': details?.map((x) => x.toJson()).toList(),
+      'lifetime': lifetime,
+      'actionType': actionType,
+    };
+  }
 }
 
 class MedicalRecordDetail {
@@ -68,6 +80,14 @@ class MedicalRecordDetail {
       type: json['type'],
       value: json['value'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+      'type': type,
+      'value': value,
+    };
   }
 }
 
@@ -94,10 +114,21 @@ class MedicalRecordDoctor {
       medicalSpecialization: json['medicalSpecialization'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'image_src': image_src,
+      'medicalSpecialization': medicalSpecialization,
+    };
+  }
 }
 
 Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
   var accessToken = await storage.read(key: 'token');
+  globalToken = accessToken;
 
   Map<String, dynamic> params = {};
 
@@ -117,11 +148,45 @@ Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
     },
   );
   if (response.statusCode == 200) {
-    print(response.body);
     List jsonResponse = jsonDecode(response.body);
     return jsonResponse.map((data) => MedicalRecordApi.fromJson(data)).toList();
   } else {
     print(response.body);
     return null;
   }
+}
+
+Future<MedicalRecordApi?> createMedicalRecord({
+  required String userId,
+  required String? title,
+  required List<MedicalRecordDetail?>? details,
+  required bool? lifeTime,
+  required String? actionType,
+}) async {
+  final accessToken = await storage.read(key: 'token');
+  final response = await http.post(
+    Uri.parse('$baseUrl/doctors/create-medical-record'),
+    headers: await <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    },
+    body: await jsonEncode(
+      <String, dynamic>{
+        "userId": userId,
+        "title": title,
+        "details": details,
+        "lifetime": lifeTime,
+        "actionType": actionType
+      },
+    ),
+  );
+  print(response.body);
+  print(response.statusCode);
+  return null;
+  // if (response.statusCode == 201) {
+  //   return MedicalRecordApi.fromJson(jsonDecode(response.body));
+  // } else {
+  //   print(response.body);
+  //   return MedicalRecordApi();
+  // }
 }

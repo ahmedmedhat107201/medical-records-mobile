@@ -266,6 +266,7 @@ class BottomSheet extends StatelessWidget {
                                           '$imagePath/default.png',
                                         )
                                       : CircleAvatar(
+                                          radius: 30,
                                           backgroundImage: NetworkImage(
                                               '${data.doctor!.image_src}'),
                                         ),
@@ -320,6 +321,7 @@ class MedicalRecordCard extends StatelessWidget {
       child: Card(
         color: primaryColor,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: EdgeInsets.only(left: 20),

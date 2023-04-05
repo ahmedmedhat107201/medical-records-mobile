@@ -33,7 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   loading() async {
     var token = await storage.read(key: 'token');
-
     Timer(const Duration(seconds: 2), () async {
       if (token == "") {
         Navigator.pushNamedAndRemoveUntil(
@@ -45,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
         try {
           var home = await home_api();
           if (home.nationalId != null) {
+            globalToken = token;
             Navigator.pushNamedAndRemoveUntil(
               context,
               HomeScreen.routeID,

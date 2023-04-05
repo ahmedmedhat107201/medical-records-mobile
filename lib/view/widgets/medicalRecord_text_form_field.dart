@@ -18,12 +18,18 @@ Widget MedicalRecordFormField({
       keyboardType: keyboardType,
       validator: validate,
       decoration: InputDecoration(
-        prefixIcon: IconData,
-        labelText: label,
-        fillColor: primaryColor,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 2),
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
+          prefixIcon: IconData,
+          labelText: label,
+          labelStyle: TextStyle(
+            color: primaryColor,
+          ),
+          fillColor: primaryColor,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2),
+            borderRadius: BorderRadius.circular(20),
+          )),
     );

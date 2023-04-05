@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
+import '/view/screens/sections/QRCheckScreen.dart';
+import '/view/screens/sections/medicalRecordScreen.dart';
 import '../../constant.dart';
 import '../screens/sections/homeScreen.dart';
 
@@ -102,6 +103,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         Navigator.pop(context);
                         Navigator.pushNamed(
                             context, MedicalRecordScreen.routeID);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create_new_folder),
+                      title: Text("Create Medical Record"),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          QRCheckScreen.routeID,
+                        );
                       },
                     ),
                     ListTile(

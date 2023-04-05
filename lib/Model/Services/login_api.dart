@@ -17,6 +17,7 @@ Future login_api(String id, String password) async {
       key: 'token',
       value: "${json.decode(response.body)['accessToken']}",
     );
+    globalToken = await storage.read(key: 'token');
   }
   return response.statusCode;
 }

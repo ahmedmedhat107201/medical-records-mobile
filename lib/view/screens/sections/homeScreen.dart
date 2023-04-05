@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
 import '../../../constant.dart';
 import '../../widgets/custom_drawer.dart';
 import '../../../Model/Services/home_api.dart';
@@ -18,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
     when false
       data loaded successfully
   */
-
   User? user;
   bool load = false;
 
@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       load = true;
     });
     user = await home_api();
+    globalUser = await home_api();
     setState(() {
       load = false;
     });
@@ -58,19 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 child: Column(
                   children: [
-                    Card(
-                      color: primaryColor,
-                      child: ListTile(
-                        leading: Text("Name"),
-                        title: Text("${user!.name}"),
-                      ),
+                    MedicalRecordCard(
+                      title: 'Name',
+                      text: '${user!.name}',
                     ),
-                    Card(
-                      color: primaryColor,
-                      child: ListTile(
-                        leading: Text("nationalId"),
-                        title: Text("${user!.nationalId}"),
-                      ),
+                    MedicalRecordCard(
+                      title: 'National Id',
+                      text: '${user!.nationalId}',
                     ),
                   ],
                 ),
