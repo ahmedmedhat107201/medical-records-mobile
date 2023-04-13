@@ -42,7 +42,6 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
     "Illness",
     "Allergy",
     "LabTest",
-    "Death",
   ];
   @override
   Widget build(BuildContext context) {
@@ -309,17 +308,22 @@ class BottomSheet extends StatelessWidget {
 }
 
 class MedicalRecordCard extends StatelessWidget {
-  const MedicalRecordCard({this.title, this.text});
-
   final String? title;
   final String? text;
+  final Color? color;
+
+  const MedicalRecordCard({
+    this.title,
+    this.text,
+    this.color = primaryColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 60,
       child: Card(
-        color: primaryColor,
+        color: color,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

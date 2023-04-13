@@ -55,17 +55,25 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                       child: Text('Scan QR Code (doctors)'),
                       color: primaryColor,
                       onPressed: () async {
-                        // globalScannedQRCode =
-                        //     await FlutterBarcodeScanner.scanBarcode(
-                        //   '#ff6666',
-                        //   'Cancel',
-                        //   true,
-                        //   ScanMode.BARCODE,
-                        // );
-
                         globalScannedQRCode =
-                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMzExMTExMTExMTExMTEiLCJpYXQiOjE2ODA1NTYwMDksImV4cCI6MTY4MDU1NjMwOX0.heuK44F1ajOXVzf87PshHtSbeGk6sA71AclHRH7uM3o';
+                            await FlutterBarcodeScanner.scanBarcode(
+                          '#ff6666',
+                          'Cancel',
+                          true,
+                          ScanMode.BARCODE,
+                        );
 
+                        // globalScannedQRCode =
+                        //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpYXQiOjE2ODEzNzU2MzYsImV4cCI6MTY4MTM3NTkzNn0.gfbI7A0KuV0dEioiECDIsXPV8Ddq8-O5xc2i0dfcWi4';
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
                         setState(
                           () async {
                             scannedUser = await scanQRCode_api(
@@ -73,6 +81,7 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                             );
                             globalScannedUser = scannedUser;
 
+                            Navigator.of(context).pop();
                             if (scannedUser!.id != null) {
                               Navigator.pushNamed(
                                 context,

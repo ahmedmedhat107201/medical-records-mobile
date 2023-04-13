@@ -1,17 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../../constant.dart';
 
 class CustomDropDownFormField extends StatefulWidget {
-  final itemList;
+  final List<String>? itemList;
   final String? lable;
   final Icon? icon;
+  final String? startValue;
+  final Function(String?)? onChanged;
+  final validator;
+  final Function(String?)? onSaved;
 
   CustomDropDownFormField({
     required this.itemList,
     required this.lable,
     required this.icon,
+    required this.onChanged,
+    required this.startValue,
+    required this.validator,
+    this.onSaved,
   });
 
   @override
@@ -20,25 +27,19 @@ class CustomDropDownFormField extends StatefulWidget {
 }
 
 class _CustomDropDownFormFieldState extends State<CustomDropDownFormField> {
-  String? _selectedItem;
-
-  final List<String> _items = <String>[
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
+      onSaved: widget.onSaved,
+      validator: widget.validator,
+      hint: Text(
+        '${widget.lable}',
+        style: TextStyle(color: primaryColor),
+      ),
       decoration: InputDecoration(
         labelText: widget.lable,
         prefixIcon: widget.icon,
-        labelStyle: TextStyle(
-          color: primaryColor,
-        ),
+        labelStyle: TextStyle(color: primaryColor),
         fillColor: primaryColor,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 2),
@@ -49,13 +50,9 @@ class _CustomDropDownFormFieldState extends State<CustomDropDownFormField> {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-      value: _selectedItem,
-      onChanged: (String? newValue) {
-        setState(() {
-          _selectedItem = newValue;
-        });
-      },
-      items: widget.itemList.map(
+      onChanged: widget.onChanged,
+      value: widget.startValue,
+      items: widget.itemList!.map(
         (String value) {
           return DropdownMenuItem<String>(
             value: value,

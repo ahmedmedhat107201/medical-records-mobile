@@ -159,13 +159,13 @@ Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
 Future<MedicalRecordApi?> createMedicalRecord({
   required String userId,
   required String? title,
-  required List<MedicalRecordDetail?>? details,
+  required List<Map<String, String>> details,
   required bool? lifeTime,
   required String? actionType,
 }) async {
   final accessToken = await storage.read(key: 'token');
   final response = await http.post(
-    Uri.parse('$baseUrl/doctors/create-medical-record'),
+    Uri.parse('$baseUrl/records'),
     headers: await <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $accessToken',
@@ -182,11 +182,10 @@ Future<MedicalRecordApi?> createMedicalRecord({
   );
   print(response.body);
   print(response.statusCode);
-  return null;
-  // if (response.statusCode == 201) {
-  //   return MedicalRecordApi.fromJson(jsonDecode(response.body));
-  // } else {
-  //   print(response.body);
-  //   return MedicalRecordApi();
-  // }
+  if (response.statusCode == 201) {
+    return MedicalRecordApi.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.body);
+    return MedicalRecordApi();
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/view/screens/splash_screen.dart';
+import 'package:medical_records_mobile/view/screens/splash_screen.dart';
 import '/view/screens/sections/createMedicalRecordScreen.dart';
 import '/view/screens/sections/medicalRecordScreen.dart';
 import '/view/screens/loginScreen.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      home: CreateMedicalRecordScreen(),
+      home: SplashScreen(),
       routes: {
         LoginScreen.routeID: (context) => LoginScreen(),
         HomeScreen.routeID: (context) => HomeScreen(),
