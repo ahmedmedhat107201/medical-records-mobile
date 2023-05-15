@@ -10,6 +10,7 @@ class CustomDropDownFormField extends StatefulWidget {
   final Function(String?)? onChanged;
   final validator;
   final Function(String?)? onSaved;
+  final Color? menuColor;
 
   CustomDropDownFormField({
     required this.itemList,
@@ -17,8 +18,9 @@ class CustomDropDownFormField extends StatefulWidget {
     required this.icon,
     required this.onChanged,
     required this.startValue,
-    required this.validator,
+    this.validator,
     this.onSaved,
+    this.menuColor,
   });
 
   @override
@@ -36,17 +38,18 @@ class _CustomDropDownFormFieldState extends State<CustomDropDownFormField> {
         '${widget.lable}',
         style: TextStyle(color: primaryColor),
       ),
+      dropdownColor: widget.menuColor,
       decoration: InputDecoration(
         labelText: widget.lable,
         prefixIcon: widget.icon,
         labelStyle: TextStyle(color: primaryColor),
         fillColor: primaryColor,
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 2),
+          borderSide: BorderSide(width: 1),
           borderRadius: BorderRadius.circular(20),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 2),
+          borderSide: BorderSide(width: 1),
           borderRadius: BorderRadius.circular(20),
         ),
       ),

@@ -55,16 +55,16 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                       child: Text('Scan QR Code (doctors)'),
                       color: primaryColor,
                       onPressed: () async {
-                        globalScannedQRCode =
-                            await FlutterBarcodeScanner.scanBarcode(
-                          '#ff6666',
-                          'Cancel',
-                          true,
-                          ScanMode.BARCODE,
-                        );
-
                         // globalScannedQRCode =
-                        //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpYXQiOjE2ODEzNzU2MzYsImV4cCI6MTY4MTM3NTkzNn0.gfbI7A0KuV0dEioiECDIsXPV8Ddq8-O5xc2i0dfcWi4';
+                        //     await FlutterBarcodeScanner.scanBarcode(
+                        //   '#ff6666',
+                        //   'Cancel',
+                        //   true,
+                        //   ScanMode.BARCODE,
+                        // );
+
+                        globalScannedQRCode =
+                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpYXQiOjE2ODQwMDkxMjF9.Eo-Ch9DAWQb73gDTPzV0ad4pgt6V8X-loBaYtEKJn2w';
 
                         showDialog(
                           context: context,

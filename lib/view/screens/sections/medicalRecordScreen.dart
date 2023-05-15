@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/constant.dart';
-import 'package:medical_records_mobile/view/widgets/custom_drawer.dart';
+import '/constant.dart';
+import '/view/widgets/custom_drawer.dart';
 import '/Model/Services/medicalRedords_api.dart';
 
 class MedicalRecordScreen extends StatefulWidget {
@@ -125,7 +125,7 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                                     children: [
                                       Text("${data.actionType}"),
                                       SizedBox(width: 10),
-                                      Text("${formateDateTime(
+                                      Text("${formateDateTimeToDate(
                                         data.createdAt.toString(),
                                       )}"),
                                     ],
@@ -196,7 +196,7 @@ class BottomSheet extends StatelessWidget {
                   ),
                   MedicalRecordCard(
                     title: 'Time Created',
-                    text: formateDateTime(data.createdAt.toString()),
+                    text: formateDateTimeToDate(data.createdAt.toString()),
                   ),
                   MedicalRecordCard(
                     title: 'Life Time',

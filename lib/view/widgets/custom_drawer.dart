@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/view/screens/sections/chat/chatHomeScreen.dart';
 import '/view/screens/sections/QRCheckScreen.dart';
 import '/view/screens/sections/medicalRecordScreen.dart';
 import '../../constant.dart';
@@ -113,6 +114,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         Navigator.pushNamed(
                           context,
                           QRCheckScreen.routeID,
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.chat),
+                      title: Text("Chat"),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          ChatHomeScreen.routeID,
                         );
                       },
                     ),
