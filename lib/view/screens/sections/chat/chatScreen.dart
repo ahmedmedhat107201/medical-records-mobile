@@ -1,76 +1,132 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import '/Model/Services/getChatMessages_api.dart';
 import 'package:medical_records_mobile/constant.dart';
 
 class ChatScreen extends StatefulWidget {
   static final String routeID = '/chatScreen';
+  final String? userId;
+
+  const ChatScreen({this.userId});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<Message> messages = [];
+  late Future<List<getChatMessagesApi?>?>? messagesList;
+  List<Message> fixedMessages = [];
 
   TextEditingController _controller = TextEditingController();
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    messagesList = getChatMessages_api(widget.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondryColor,
       appBar: AppBar(
         title: Center(child: Text("Chat Screen")),
         backgroundColor: primaryColor,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return messages[index];
-              },
+      body: Container(
+        padding: EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<List<getChatMessagesApi?>?>(
+                future: messagesList,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    var messages = snapshot.data!;
+                    if (fixedMessages.isEmpty) {
+                      for (var message in messages) {
+                        final m = Message(
+                          isMe: message!.isMe!,
+                          value: message.value!,
+                          createdAt: message.createdAt!,
+                          senderId: message.senderId!,
+                        );
+                        fixedMessages.add(m);
+                      }
+                    }
+
+                    return ListView.builder(
+                      controller: scrollController,
+                      shrinkWrap: true,
+                      itemCount: fixedMessages.length,
+                      itemBuilder: (context, index) {
+                        // var data = snapshot.data![index]!;
+                        var data2 = fixedMessages[index];
+                        return Message(
+                          senderId: data2.senderId,
+                          value: data2.value,
+                          isMe: data2.isMe,
+                          createdAt: data2.createdAt,
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: "Enter a message",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+            //input button and text field
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "Enter a message",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: primaryColor,
+                  IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      color: primaryColor,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          String messageText = _controller.text;
+                          fixedMessages.add(
+                            Message(
+                              value: messageText,
+                              isMe: true,
+                              createdAt: DateTime.now().toString(),
+                              senderId: 'Sender',
+                            ),
+                          );
+                          SchedulerBinding.instance.addPostFrameCallback((_) {
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          });
+                          _controller.clear();
+                        },
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    setState(
-                      () {
-                        String messageText = _controller.text;
-                        messages.add(
-                          Message(
-                            messageText: messageText,
-                            isSender: true,
-                            time: DateTime.now(),
-                            sender: 'Sender',
-                          ),
-                        );
-                        _controller.clear();
-                      },
-                    );
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -78,34 +134,34 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class Message extends StatelessWidget {
   Message({
-    required this.sender,
-    required this.messageText,
-    required this.isSender,
-    required this.time,
+    required this.senderId,
+    required this.value,
+    required this.isMe,
+    required this.createdAt,
   });
 
-  final String sender;
-  final String messageText;
-  final bool isSender;
-  final DateTime time;
+  final String senderId;
+  final String value;
+  final bool isMe;
+  final String? createdAt;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
-            isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            sender,
+            senderId,
             style: TextStyle(
               fontSize: 12.0,
               color: Colors.black54,
             ),
           ),
           Material(
-            borderRadius: isSender
+            borderRadius: isMe
                 ? BorderRadius.only(
                     topLeft: Radius.circular(15.0),
                     bottomLeft: Radius.circular(15.0),
@@ -116,13 +172,13 @@ class Message extends StatelessWidget {
                     topRight: Radius.circular(15.0),
                   ),
             elevation: 10.0,
-            color: isSender ? primaryColor : Colors.white,
+            color: isMe ? primaryColor : Colors.grey.shade300,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Text(
-                messageText,
+                value,
                 style: TextStyle(
-                  color: isSender ? Colors.white : Colors.black54,
+                  color: isMe ? Colors.white : Colors.grey.shade800,
                   fontSize: 15.0,
                 ),
               ),
@@ -130,7 +186,7 @@ class Message extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            formateDateTimeToDate(time.toString()),
+            formateDateTimeToTime(createdAt.toString()),
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 12,

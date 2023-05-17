@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/sections/chat/chatScreen.dart';
 import '../../../../Model/Services/getChatRooms_api.dart';
 import '/constant.dart';
 
@@ -62,7 +63,11 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                           },
                           itemBuilder: (context, index) {
                             var room = roomsList![index]!;
-                            return RoomCard(room: room);
+                            if (room.otherUser!.image_src != null) {
+                              return RoomCard(room: room);
+                            } else {
+                              return Container();
+                            }
                           },
                         ),
                 ),
@@ -95,7 +100,15 @@ class RoomCard extends StatelessWidget {
           SizedBox(width: 20),
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                String? id = room.otherUser!.id;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(userId: id!),
+                  ),
+                );
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
