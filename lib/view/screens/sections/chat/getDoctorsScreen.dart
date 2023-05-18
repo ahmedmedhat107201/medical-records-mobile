@@ -215,9 +215,13 @@ class _GetDoctorsScreenState extends State<GetDoctorsScreen> {
                             return DoctorCard(
                               doctor: doctor,
                               onTap: () {
-                                Navigator.pushNamed(
+                                String? id = doctor.id;
+                                Navigator.push(
                                   context,
-                                  ChatScreen.routeID,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChatScreen(userId: id!),
+                                  ),
                                 );
                               },
                             );

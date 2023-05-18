@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      home: ChatHomeScreen(),
+      home: SplashScreen(),
       routes: {
         LoginScreen.routeID: (context) => LoginScreen(),
         HomeScreen.routeID: (context) => HomeScreen(),

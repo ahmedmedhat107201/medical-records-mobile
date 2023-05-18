@@ -63,11 +63,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                           },
                           itemBuilder: (context, index) {
                             var room = roomsList![index]!;
-                            if (room.otherUser!.image_src != null) {
-                              return RoomCard(room: room);
-                            } else {
-                              return Container();
-                            }
+                            return RoomCard(room: room);
                           },
                         ),
                 ),

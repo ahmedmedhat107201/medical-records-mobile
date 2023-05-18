@@ -38,7 +38,7 @@ bool toBool(String text) {
 }
 
 // user data
-User? globalUser;
+User? globalUser = User();
 // access token
 String? globalToken;
 // generated qr code string

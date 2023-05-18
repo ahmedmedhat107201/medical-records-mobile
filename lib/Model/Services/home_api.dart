@@ -57,7 +57,7 @@ class User {
   }
 }
 
-Future<User> home_api() async {
+Future<User?>? home_api() async {
   var accessToken = await storage.read(
     key: 'token',
   );
@@ -77,6 +77,6 @@ Future<User> home_api() async {
     await storage.write(key: 'userImage', value: await user.image_src);
     return User.fromJson(jsonDecode(response.body));
   } else {
-    return User();
+    return null;
   }
 }

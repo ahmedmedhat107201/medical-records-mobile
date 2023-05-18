@@ -14,7 +14,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  late Future<List<getChatMessagesApi?>?>? messagesList;
+  late Future<getChatMessagesApi?>? messagesList;
   List<Message> fixedMessages = [];
 
   TextEditingController _controller = TextEditingController();
@@ -39,23 +39,31 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: [
             Expanded(
-              child: FutureBuilder<List<getChatMessagesApi?>?>(
+              child: FutureBuilder<getChatMessagesApi?>(
                 future: messagesList,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    var messages = snapshot.data!;
+                    var messages = snapshot.data!.messages!;
                     if (fixedMessages.isEmpty) {
                       for (var message in messages) {
                         final m = Message(
-                          isMe: message!.isMe!,
+                          isMe: message.isMe!,
                           value: message.value!,
                           createdAt: message.createdAt!,
-                          senderId: message.senderId!,
+                          senderName: snapshot.data!.otherUser!.name!,
+                          image: snapshot.data!.otherUser!.image_src!,
                         );
                         fixedMessages.add(m);
                       }
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        scrollController.animateTo(
+                          scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                        );
+                      });
                     }
 
                     return ListView.builder(
@@ -65,11 +73,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       itemBuilder: (context, index) {
                         // var data = snapshot.data![index]!;
                         var data2 = fixedMessages[index];
+                        String? globalUserImg = globalUser!.image_src;
                         return Message(
-                          senderId: data2.senderId,
+                          senderName: data2.isMe ? 'Me' : data2.senderName,
                           value: data2.value,
                           isMe: data2.isMe,
                           createdAt: data2.createdAt,
+                          image: data2.isMe ? globalUserImg : data2.image,
                         );
                       },
                     );
@@ -107,7 +117,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               value: messageText,
                               isMe: true,
                               createdAt: DateTime.now().toString(),
-                              senderId: 'Sender',
+                              senderName: 'Sender',
+                              image: null,
                             ),
                           );
                           SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -134,16 +145,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class Message extends StatelessWidget {
   Message({
-    required this.senderId,
+    required this.senderName,
     required this.value,
     required this.isMe,
     required this.createdAt,
+    required this.image,
   });
 
-  final String senderId;
+  final String senderName;
   final String value;
   final bool isMe;
   final String? createdAt;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +167,7 @@ class Message extends StatelessWidget {
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            senderId,
+            senderName,
             style: TextStyle(
               fontSize: 12.0,
               color: Colors.black54,
@@ -173,15 +186,41 @@ class Message extends StatelessWidget {
                   ),
             elevation: 10.0,
             color: isMe ? primaryColor : Colors.grey.shade300,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: isMe ? Colors.white : Colors.grey.shade800,
-                  fontSize: 15.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment:
+                  isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+              children: [
+                !isMe
+                    ? CircleAvatar(
+                        radius: 24,
+                        backgroundImage: image == null
+                            ? Image.asset('$imagePath/default.png').image
+                            : Image.network('${image}').image,
+                      )
+                    : Container(),
+                Flexible(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        color: isMe ? Colors.white : Colors.grey.shade800,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                isMe
+                    ? CircleAvatar(
+                        radius: 24,
+                        backgroundImage: image == null
+                            ? Image.asset('$imagePath/default.png').image
+                            : Image.network('${image}').image,
+                      )
+                    : Container(),
+              ],
             ),
           ),
           SizedBox(height: 10),

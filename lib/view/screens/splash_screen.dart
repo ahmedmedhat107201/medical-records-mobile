@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         try {
           var home = await home_api();
-          if (home.nationalId != null) {
+          if (home!.nationalId != null) {
             globalToken = token;
             Navigator.pushNamedAndRemoveUntil(
               context,
