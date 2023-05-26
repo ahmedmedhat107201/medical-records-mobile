@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import '../../../../graphql/chat.dart';
 import '/Model/Services/getChatMessages_api.dart';
-import 'package:medical_records_mobile/constant.dart';
+import '/constant.dart';
 
 class ChatScreen extends StatefulWidget {
   static final String routeID = '/chatScreen';
@@ -38,6 +40,31 @@ class _ChatScreenState extends State<ChatScreen> {
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
+            // Subscription(
+            //   options: SubscriptionOptions(
+            //     document: gql(MESSAGE_RECIEVED),
+            //   ),
+            //   builder: (result) {
+            //     if (result.hasException) {
+            //       return Text(result.exception.toString());
+            //     }
+
+            //     if (result.isLoading) {
+            //       return Text('Loading...');
+            //     }
+
+            //     // Handle the received data here
+            //     final dynamic returnedData = result.data;
+            //     // Process the data as per your requirements
+
+            //     return Container(
+            //       color: Colors.yellow,
+            //       height: 150,
+            //       child: Text("${returnedData.toString()}"),
+            //     );
+            //   },
+            // ),
+
             Expanded(
               child: FutureBuilder<getChatMessagesApi?>(
                 future: messagesList,
@@ -71,7 +98,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       shrinkWrap: true,
                       itemCount: fixedMessages.length,
                       itemBuilder: (context, index) {
-                        // var data = snapshot.data![index]!;
                         var data2 = fixedMessages[index];
                         String? globalUserImg = globalUser!.image_src;
                         return Message(
@@ -103,36 +129,101 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: primaryColor,
+
+                  Mutation(
+                    options: MutationOptions(
+                      document: gql(
+                        SEND_MESSAGE,
+                      ), // this is the mutation string you just created
+                      // you can update the cache based on results
+                      update: (cache, result) {
+                        return cache;
+                      },
+                      // // or do something with the result.data on completion
+                      onCompleted: (dynamic resultData) {
+                        print(resultData);
+                      },
+                      onError: (error) {
+                        print(error);
+                      },
                     ),
-                    onPressed: () {
-                      setState(
-                        () {
-                          String messageText = _controller.text;
-                          fixedMessages.add(
-                            Message(
-                              value: messageText,
-                              isMe: true,
-                              createdAt: DateTime.now().toString(),
-                              senderName: 'Sender',
-                              image: null,
-                            ),
+                    builder: (
+                      runMutation,
+                      result,
+                    ) {
+                      return IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          color: primaryColor,
+                        ),
+                        onPressed: () {
+                          setState(
+                            () {
+                              String messageText = _controller.text;
+                              fixedMessages.add(
+                                Message(
+                                  value: messageText,
+                                  isMe: true,
+                                  createdAt: DateTime.now().toString(),
+                                  senderName: 'Sender',
+                                  image: null,
+                                ),
+                              );
+
+                              runMutation({
+                                'value': messageText,
+                                'toId': widget.userId,
+                              });
+
+                              SchedulerBinding.instance
+                                  .addPostFrameCallback((_) {
+                                scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.easeOut,
+                                );
+                              });
+                              _controller.clear();
+                            },
+
+                            ///add mutation
                           );
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            scrollController.animateTo(
-                              scrollController.position.maxScrollExtent,
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.easeOut,
-                            );
-                          });
-                          _controller.clear();
                         },
                       );
                     },
                   ),
+
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.send,
+                  //     color: primaryColor,
+                  //   ),
+                  //   onPressed: () {
+                  //     setState(
+                  //       () {
+                  //         String messageText = _controller.text;
+                  //         fixedMessages.add(
+                  //           Message(
+                  //             value: messageText,
+                  //             isMe: true,
+                  //             createdAt: DateTime.now().toString(),
+                  //             senderName: 'Sender',
+                  //             image: null,
+                  //           ),
+                  //         );
+
+                  //         SchedulerBinding.instance.addPostFrameCallback((_) {
+                  //           scrollController.animateTo(
+                  //             scrollController.position.maxScrollExtent,
+                  //             duration: Duration(milliseconds: 300),
+                  //             curve: Curves.easeOut,
+                  //           );
+                  //         });
+                  //         _controller.clear();
+                  //       },
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
             ),

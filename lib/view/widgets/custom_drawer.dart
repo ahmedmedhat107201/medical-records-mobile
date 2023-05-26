@@ -49,7 +49,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   void initState() {
     super.initState();
-
     if (user == null) {
       fetch();
     }

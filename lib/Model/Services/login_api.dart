@@ -19,5 +19,6 @@ Future login_api(String id, String password) async {
     );
     globalToken = await storage.read(key: 'token');
   }
+
   return response.statusCode;
 }

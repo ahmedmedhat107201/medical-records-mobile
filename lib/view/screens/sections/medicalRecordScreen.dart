@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '/Model/Services/medicalRedords_api.dart';
 import '/constant.dart';
 import '/view/widgets/custom_drawer.dart';
-import '/Model/Services/medicalRedords_api.dart';
 
 class MedicalRecordScreen extends StatefulWidget {
   static final String routeID = "/medicalRecordScreen";

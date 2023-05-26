@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/chat/chatRoomsScreen.dart';
+import '/view/screens/sections/chat/chatRoomsScreen.dart';
 import '/view/screens/sections/chat/getDoctorsScreen.dart';
 import '/constant.dart';
 import '/view/widgets/custom_drawer.dart';
@@ -35,6 +35,45 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final result = useSubscription(
+    //   SubscriptionOptions(
+    //     document: gql(MESSAGE_RECIEVED),
+    //   ),
+    // );
+
+    // Widget? child;
+    // if (result.hasException) {
+    //   setState(() {
+    //     child = Text(result.exception.toString());
+    //   });
+    // } else if (result.isLoading) {
+    //   setState(() {
+    //     child = Center(
+    //       child: const CircularProgressIndicator(),
+    //     );
+    //   });
+    // } else {
+    //   setState(
+    //     () {
+    //       child = ResultAccumulator.appendUniqueEntries(
+    //         latest: result.data,
+    //         builder: (context, {results}) {
+    //           return TabBarView(
+    //             children: [
+    //               //1st tab
+
+    //               ChatRoomsScreen(),
+
+    //               // ChatRoomsScreen(),
+    //               //2nd tab
+    //               GetDoctorsScreen(),
+    //             ],
+    //           );
+    //         },
+    //       );
+    //     },
+    //   );
+    // }
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -59,6 +98,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                     topLeft: Radius.circular(30),
                   ),
                 ),
+                // child: child,
                 child: TabBarView(
                   children: [
                     //1st tab

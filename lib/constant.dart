@@ -7,6 +7,7 @@ import 'Model/Services/getDoctors_api.dart';
 import 'Model/Services/home_api.dart';
 
 const Color? primaryColor = Color.fromARGB(255, 7, 91, 146);
+
 final Color? secondryColor = Colors.grey.shade200;
 
 final storage = const FlutterSecureStorage();
