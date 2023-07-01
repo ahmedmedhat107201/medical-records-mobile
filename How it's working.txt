@@ -13,3 +13,16 @@ home_api()
 
 HomeScreen()
     display all the data using home_api() method
+
+design notes
+
+
+-bottom navigation bar
+-center app bar
+-details in the bottom
+
+
+
+
+
+

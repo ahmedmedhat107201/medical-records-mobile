@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import '/Model/Services/QR_code_api.dart';
 import 'Model/Services/getChatRooms_api.dart';
 import 'Model/Services/getDoctors_api.dart';
 import 'Model/Services/home_api.dart';
+import 'graphql/chat.dart';
 
 const Color? primaryColor = Color.fromARGB(255, 7, 91, 146);
 
@@ -54,3 +58,12 @@ List<GetDoctorsApi?>? globalDoctorList;
 String globalMedicalSpecialization = 'All Specializations';
 // all chat rooms
 List<GetChatRoomsApi?>? globalRoomsList;
+//graphQL global client
+
+ValueNotifier<GraphQLClient>? graphqlClient;
+//subscription option
+final subscriptionOptions = SubscriptionOptions(
+  document: gql(MESSAGE_RECIEVED),
+);
+//subscriptionStrean
+StreamSubscription<QueryResult>? subscription; // Subscription object

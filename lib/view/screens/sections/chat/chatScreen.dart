@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -16,16 +18,81 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  // get all messages
+  getChatMessagesApi? getAllMessages;
+  bool load = false;
+  void fetch() async {
+    setState(() {
+      load = true;
+    });
+    getAllMessages = await getChatMessages_api(widget.userId);
+    setState(() {
+      load = false;
+    });
+  }
+
+  // to get and save the messages from the API
   late Future<getChatMessagesApi?>? messagesList;
   List<Message> fixedMessages = [];
 
+  // to control the chat scroll and text
   TextEditingController _controller = TextEditingController();
   ScrollController scrollController = ScrollController();
+
+  // to control the stream subscription
+  StreamController<QueryResult> streamController =
+      StreamController<QueryResult>();
 
   @override
   void initState() {
     super.initState();
+    //get all messages
+    if (getAllMessages == null) {
+      fetch();
+    }
     messagesList = getChatMessages_api(widget.userId);
+
+    /////////////////////////////////////////////////////////
+    //                   SUBSCRIPTION                    ///
+    ///////////////////////////////////////////////////////
+
+    // Start the new subscription
+    subscription = graphqlClient?.value.subscribe(subscriptionOptions).listen(
+      (result) {
+        if (!result.hasException) {
+          final newMessage = Message.fromGraphQLResult(
+            result.data!['messageSent'],
+          );
+          setState(
+            () {
+              fixedMessages.add(
+                newMessage,
+              ); // Add the new message to your list of messages
+            },
+          );
+        } else {
+          print("ahmed medhat ahmed");
+        }
+      },
+    );
+    // Add subscription events to the StreamController
+    subscription?.onData((data) {
+      streamController.add(data);
+    });
+
+    // Add subscription errors to the StreamController
+    subscription?.onError((error) {
+      streamController.addError(error);
+    });
+  }
+  /////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+
+  @override
+  void dispose() {
+    subscription?.cancel();
+    streamController.close();
+    super.dispose();
   }
 
   @override
@@ -40,78 +107,64 @@ class _ChatScreenState extends State<ChatScreen> {
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
-            // Subscription(
-            //   options: SubscriptionOptions(
-            //     document: gql(MESSAGE_RECIEVED),
-            //   ),
-            //   builder: (result) {
-            //     if (result.hasException) {
-            //       return Text(result.exception.toString());
-            //     }
-
-            //     if (result.isLoading) {
-            //       return Text('Loading...');
-            //     }
-
-            //     // Handle the received data here
-            //     final dynamic returnedData = result.data;
-            //     // Process the data as per your requirements
-
-            //     return Container(
-            //       color: Colors.yellow,
-            //       height: 150,
-            //       child: Text("${returnedData.toString()}"),
-            //     );
-            //   },
-            // ),
-
             Expanded(
-              child: FutureBuilder<getChatMessagesApi?>(
-                future: messagesList,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    var messages = snapshot.data!.messages!;
-                    if (fixedMessages.isEmpty) {
-                      for (var message in messages) {
-                        final m = Message(
-                          isMe: message.isMe!,
-                          value: message.value!,
-                          createdAt: message.createdAt!,
-                          senderName: snapshot.data!.otherUser!.name!,
-                          image: snapshot.data!.otherUser!.image_src!,
-                        );
-                        fixedMessages.add(m);
-                      }
-                      SchedulerBinding.instance.addPostFrameCallback((_) {
-                        scrollController.animateTo(
-                          scrollController.position.maxScrollExtent,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                        );
-                      });
-                    }
-
-                    return ListView.builder(
-                      controller: scrollController,
-                      shrinkWrap: true,
-                      itemCount: fixedMessages.length,
-                      itemBuilder: (context, index) {
-                        var data2 = fixedMessages[index];
-                        String? globalUserImg = globalUser!.image_src;
-                        return Message(
-                          senderName: data2.isMe ? 'Me' : data2.senderName,
-                          value: data2.value,
-                          isMe: data2.isMe,
-                          createdAt: data2.createdAt,
-                          image: data2.isMe ? globalUserImg : data2.image,
+              child: load
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : StreamBuilder<QueryResult>(
+                      stream: streamController.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && !snapshot.hasError) {
+                          final result = snapshot.data!;
+                          final newMessage = Message.fromGraphQLResult(
+                            result.data?['messageSent'],
+                          );
+                          fixedMessages.add(
+                            newMessage,
+                          ); // Add the new message to your list of messages
+                        } else {
+                          print("I dont have data");
+                        }
+                        return ListView.builder(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          itemCount: getAllMessages!.messages!.length,
+                          itemBuilder: (context, index) {
+                            var messages = getAllMessages!.messages;
+                            if (fixedMessages.isEmpty) {
+                              for (var message in messages!) {
+                                final m = Message(
+                                  isMe: message.isMe!,
+                                  value: message.value!,
+                                  createdAt: message.createdAt!,
+                                  senderName: getAllMessages!.otherUser!.name!,
+                                  image: getAllMessages!.otherUser!.image_src!,
+                                );
+                                fixedMessages.add(m);
+                              }
+                              SchedulerBinding.instance
+                                  .addPostFrameCallback((_) {
+                                scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.easeOut,
+                                );
+                              });
+                            }
+                            var data2 = fixedMessages[index];
+                            String? globalUserImg = globalUser!.image_src;
+                            return Message(
+                              senderName: data2.isMe ? 'Me' : data2.senderName,
+                              value: data2.value,
+                              isMe: data2.isMe,
+                              createdAt: data2.createdAt,
+                              image: data2.isMe ? globalUserImg : data2.image,
+                            );
+                          },
                         );
                       },
-                    );
-                  }
-                },
-              ),
+                    ),
             ),
             //input button and text field
             Container(
@@ -129,17 +182,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
-
                   Mutation(
                     options: MutationOptions(
                       document: gql(
                         SEND_MESSAGE,
-                      ), // this is the mutation string you just created
-                      // you can update the cache based on results
+                      ),
                       update: (cache, result) {
                         return cache;
                       },
-                      // // or do something with the result.data on completion
                       onCompleted: (dynamic resultData) {
                         print(resultData);
                       },
@@ -192,38 +242,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       );
                     },
                   ),
-
-                  // IconButton(
-                  //   icon: Icon(
-                  //     Icons.send,
-                  //     color: primaryColor,
-                  //   ),
-                  //   onPressed: () {
-                  //     setState(
-                  //       () {
-                  //         String messageText = _controller.text;
-                  //         fixedMessages.add(
-                  //           Message(
-                  //             value: messageText,
-                  //             isMe: true,
-                  //             createdAt: DateTime.now().toString(),
-                  //             senderName: 'Sender',
-                  //             image: null,
-                  //           ),
-                  //         );
-
-                  //         SchedulerBinding.instance.addPostFrameCallback((_) {
-                  //           scrollController.animateTo(
-                  //             scrollController.position.maxScrollExtent,
-                  //             duration: Duration(milliseconds: 300),
-                  //             curve: Curves.easeOut,
-                  //           );
-                  //         });
-                  //         _controller.clear();
-                  //       },
-                  //     );
-                  //   },
-                  // ),
                 ],
               ),
             ),
@@ -248,6 +266,17 @@ class Message extends StatelessWidget {
   final bool isMe;
   final String? createdAt;
   final String? image;
+
+  factory Message.fromGraphQLResult(Map<String, dynamic> data) {
+    final sentUser = data['sentUser'];
+    return Message(
+      senderName: sentUser['name'],
+      value: data['value'],
+      isMe: false,
+      createdAt: data['createdAt'],
+      image: sentUser['image_src'],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -327,4 +356,51 @@ class Message extends StatelessWidget {
     );
   }
 }
-// static final String routeID = '/chatScreen';
+/*
+child: FutureBuilder<getChatMessagesApi?>(
+                future: messagesList,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    var messages = snapshot.data!.messages!;
+                    if (fixedMessages.isEmpty) {
+                      for (var message in messages) {
+                        final m = Message(
+                          isMe: message.isMe!,
+                          value: message.value!,
+                          createdAt: message.createdAt!,
+                          senderName: snapshot.data!.otherUser!.name!,
+                          image: snapshot.data!.otherUser!.image_src!,
+                        );
+                        fixedMessages.add(m);
+                      }
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        scrollController.animateTo(
+                          scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                        );
+                      });
+                    }
+
+                    return ListView.builder(
+                      controller: scrollController,
+                      shrinkWrap: true,
+                      itemCount: fixedMessages.length,
+                      itemBuilder: (context, index) {
+                        var data2 = fixedMessages[index];
+                        String? globalUserImg = globalUser!.image_src;
+                        return Message(
+                          senderName: data2.isMe ? 'Me' : data2.senderName,
+                          value: data2.value,
+                          isMe: data2.isMe,
+                          createdAt: data2.createdAt,
+                          image: data2.isMe ? globalUserImg : data2.image,
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+*/

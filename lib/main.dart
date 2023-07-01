@@ -24,11 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ValueNotifier<GraphQLClient>? graphqlClient;
-
   Future<void> initGraphQlClient() async {
-    String? accessToken = await storage.read(key: "token");
-
     final String graphqlHttpUri =
         'https://medical-records-server1.onrender.com/graphql';
 
@@ -36,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         'wss://medical-records-server1.onrender.com/graphql';
 
     final AuthLink authLink = AuthLink(
-      getToken: () async => 'Bearer ' + accessToken!,
+      getToken: () async => 'Bearer ' + globalToken!,
     );
 
     // for queries and mutations
@@ -50,6 +46,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       graphqlClient = ValueNotifier(
         GraphQLClient(
+          alwaysRebroadcast: true,
           link: link,
           // The default store is the InMemoryStore, which does NOT persist to disk
           cache: GraphQLCache(store: HiveStore()),

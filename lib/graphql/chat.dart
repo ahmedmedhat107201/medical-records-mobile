@@ -14,6 +14,7 @@ subscription messageSent{
   messageSent{
     id
     value
+    type
     senderId
     roomId
     createdAt

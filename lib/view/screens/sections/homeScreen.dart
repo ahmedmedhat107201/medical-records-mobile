@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/medicalRecordScreen.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import '/view/screens/sections/medicalRecordScreen.dart';
 import '../../../constant.dart';
 import '../../widgets/custom_drawer.dart';
 import '../../../Model/Services/home_api.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     user = await home_api();
     globalUser = await home_api();
+
     setState(() {
       load = false;
     });
