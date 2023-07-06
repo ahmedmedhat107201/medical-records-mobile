@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../Model/Services/medicalRedords_api.dart';
-import '/view/screens/sections/medicalRecordScreen.dart';
+import '../../../../Model/Services/medicalRedords_api.dart';
+import 'medicalRecordScreen.dart';
 import '/view/widgets/custom_button.dart';
 import '/view/widgets/medicalRecord_text_form_field.dart';
 
-import '../../widgets/custom_dropDownFormField.dart';
+import '../../../widgets/custom_dropDownFormField.dart';
 import '/constant.dart';
-import 'QRCheckScreen.dart';
+import '../QRCheckScreen.dart';
 
 class CreateMedicalRecordScreen extends StatefulWidget {
   static final String routeID = "/createMedicalRecordScreen";
@@ -196,7 +196,7 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                       ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            primaryColor!,
+                            primaryColor,
                           ),
                         ),
                         onPressed: () {

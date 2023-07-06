@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:medical_records_mobile/Model/Services/getDoctorReviews_api.dart';
 import '/Model/Services/QR_code_api.dart';
+import 'Model/Services/doctorProfile_api.dart';
 import 'Model/Services/getChatRooms_api.dart';
 import 'Model/Services/getDoctors_api.dart';
 import 'Model/Services/home_api.dart';
+import 'Model/Services/medicalRedords_api.dart';
 import 'graphql/chat.dart';
 
-const Color? primaryColor = Color.fromARGB(255, 7, 91, 146);
-
-final Color? secondryColor = Colors.grey.shade200;
+const Color primaryColor = Color.fromRGBO(0, 53, 81, 1);
+const Color secondryColor = Color.fromRGBO(237, 237, 237, 1);
 
 final storage = const FlutterSecureStorage();
 
@@ -67,3 +69,15 @@ final subscriptionOptions = SubscriptionOptions(
 );
 //subscriptionStrean
 StreamSubscription<QueryResult>? subscription; // Subscription object
+
+//global logged medical record
+List<MedicalRecordApi?>? globalMedicalRecord;
+
+//global scanned medical record
+List<MedicalRecordApi?>? globalScannedMedicalRecord;
+
+//global doctor profile
+DoctorProfileAPI? globalDoctorProfile;
+
+//globalDoctorReview
+List<DoctorReviewAPI?>? globalDoctorReviews;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:medical_records_mobile/view/screens/sections/medicalRecords/scanMedicalRecord.dart';
 import '/view/screens/sections/chat/chatHomeScreen.dart';
 import '/view/screens/sections/QRCheckScreen.dart';
-import '/view/screens/sections/medicalRecordScreen.dart';
+import '../screens/sections/medicalRecords/medicalRecordScreen.dart';
 import '../../constant.dart';
 import '../screens/sections/homeScreen.dart';
 
@@ -102,7 +103,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       onTap: () {
                         Navigator.pop(context);
                         Navigator.pushNamed(
-                            context, MedicalRecordScreen.routeID);
+                          context,
+                          MedicalRecordScreen.routeID,
+                        );
                       },
                     ),
                     ListTile(
@@ -113,6 +116,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         Navigator.pushNamed(
                           context,
                           QRCheckScreen.routeID,
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create_new_folder),
+                      title: Text("Scan Records"),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          ScanMedicalRecord.routeID,
                         );
                       },
                     ),

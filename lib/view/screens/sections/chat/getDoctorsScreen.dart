@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/chat/chatScreen.dart';
+import 'package:medical_records_mobile/view/screens/sections/doctorProfileScreen.dart';
 import '/view/widgets/custom_dropDownFormField.dart';
 import '/Model/Services/getDoctors_api.dart';
 import '/constant.dart';
@@ -216,11 +216,13 @@ class _GetDoctorsScreenState extends State<GetDoctorsScreen> {
                               doctor: doctor,
                               onTap: () {
                                 String? id = doctor.id;
+                                print(id!);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChatScreen(userId: id!),
+                                    builder: (context) => DoctorProfileScreen(
+                                      doctorId: id,
+                                    ),
                                   ),
                                 );
                               },

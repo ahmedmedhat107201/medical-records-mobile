@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:medical_records_mobile/view/screens/sections/medicalRecords/createMedicalRecordScreen.dart';
+import 'package:medical_records_mobile/view/screens/sections/medicalRecords/medicalRecordScreen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import '/view/widgets/custom_drawer.dart';
-import '../../../Model/Services/QR_code_api.dart';
-import '/constant.dart';
+import '../../../../Model/Services/QR_code_api.dart';
+import '../../../../constant.dart';
+import '../../../widgets/custom_drawer.dart';
 
-class QRCheckScreen extends StatefulWidget {
-  static final String routeID = "/QRCeackScreen";
+class ScanMedicalRecord extends StatefulWidget {
+  static final String routeID = "/scanMedicalRecordScreen";
 
   @override
-  State<QRCheckScreen> createState() => _QRCheckScreenState();
+  State<ScanMedicalRecord> createState() => _ScanMedicalRecordState();
 }
 
-class _QRCheckScreenState extends State<QRCheckScreen> {
+class _ScanMedicalRecordState extends State<ScanMedicalRecord> {
   ScannedUser? scannedUser;
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                         // );
 
                         globalScannedQRCode =
-                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpYXQiOjE2ODQwMDkxMjF9.Eo-Ch9DAWQb73gDTPzV0ad4pgt6V8X-loBaYtEKJn2w';
+                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpZCI6IjNjZmQ1ZjBjLTJlYzctNDllZi1iNDI3LWZkNGQ3MmZlNTljMiIsIm5hbWUiOiJhaG1lZCBtZWRoYXQiLCJpYXQiOjE2ODgzNzE3MzR9.ksR43Hn9tgK7XZ1p5yRt0bMPlfJSBNefMgLUcuFDPew';
 
                         showDialog(
                           context: context,
@@ -75,30 +75,16 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                         );
                         setState(
                           () async {
-                            scannedUser = await scanQRCode_api(
-                              globalScannedQRCode!,
-                            );
-                            globalScannedUser = scannedUser;
-
                             Navigator.of(context).pop();
-                            if (scannedUser!.id != null) {
-                              Navigator.pushNamed(
-                                context,
-                                CreateMedicalRecordScreen.routeID,
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: primaryColor,
-                                  duration: Duration(seconds: 5),
-                                  content: Text('Try To Scan Again'),
-                                  action: SnackBarAction(
-                                    label: 'dismiss',
-                                    onPressed: () {},
-                                  ),
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MedicalRecordScreen(
+                                  isScanned: true,
                                 ),
-                              );
-                            }
+                              ),
+                            );
                           },
                         );
                       },

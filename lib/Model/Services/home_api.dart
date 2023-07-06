@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import '/constant.dart';
 
 class User {
+  final String? id;
   final String? nationalId;
   final String? name;
   final String? email;
@@ -20,6 +21,7 @@ class User {
   final int? height_cm;
 
   User({
+    this.id,
     this.email,
     this.createdAt,
     this.updatedAt,
@@ -38,6 +40,7 @@ class User {
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
+      id: json['id'],
       nationalId: json['nationalId'],
       name: json['name'],
       gender: json['gender'],

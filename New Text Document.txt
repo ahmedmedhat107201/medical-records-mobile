@@ -1,12 +1,8 @@
-Investigation
-.labtest
-.radiation
-
 doctor can display medical record and patient profile
 profile (doctor)
 rating -> getAllDoctrots, getDoctorProfile
 reviews -> separateAPI
 home screen
-Machine Learning model
+machine learning model
 add review (can't post review for yourself)
 send medical record in chat

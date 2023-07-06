@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
 import '../../constant.dart';
 
 class MedicalRecordApi {
@@ -145,6 +143,40 @@ Future<List<MedicalRecordApi?>?> medicalRecord_api(String? actionType) async {
     finalUri,
     headers: <String, String>{
       'Authorization': 'Bearer $accessToken',
+    },
+  );
+  if (response.statusCode == 200) {
+    List jsonResponse = jsonDecode(response.body);
+    return jsonResponse.map((data) => MedicalRecordApi.fromJson(data)).toList();
+  } else {
+    print(response.body);
+    return null;
+  }
+}
+
+Future<List<MedicalRecordApi?>?> scannedMedicalRecord_api({
+  required String actionType,
+  required String qrCode,
+}) async {
+  Map<String, dynamic> params = {};
+
+  if (actionType == '' || actionType == 'All Records') {
+    params = {};
+  } else if (actionType != '') {
+    params = {"actionType": actionType};
+  }
+
+  Uri uri = Uri.parse('$baseUrl/doctors/read-medical-records');
+  final finalUri = uri.replace(queryParameters: params);
+
+  final response = await http.post(
+    finalUri,
+    body: json.encode(
+      <String, String>{"qrCode": qrCode},
+    ),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $globalToken',
     },
   );
   if (response.statusCode == 200) {

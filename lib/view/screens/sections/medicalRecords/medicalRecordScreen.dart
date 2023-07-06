@@ -6,6 +6,10 @@ import '/view/widgets/custom_drawer.dart';
 
 class MedicalRecordScreen extends StatefulWidget {
   static final String routeID = "/medicalRecordScreen";
+
+  final bool isScanned;
+  const MedicalRecordScreen({required this.isScanned});
+
   @override
   State<MedicalRecordScreen> createState() => MedicalRecordState();
 }
@@ -19,6 +23,21 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
       load = true;
     });
     medicalRecord = await medicalRecord_api(actionType);
+    globalMedicalRecord = medicalRecord;
+    setState(() {
+      load = false;
+    });
+  }
+
+  void scanFetch(String? actionType) async {
+    setState(() {
+      load = true;
+    });
+    medicalRecord = await scannedMedicalRecord_api(
+      actionType: actionType!,
+      qrCode: globalScannedQRCode!,
+    );
+    globalScannedMedicalRecord = medicalRecord;
     setState(() {
       load = false;
     });
@@ -27,9 +46,15 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
   @override
   void initState() {
     super.initState();
-    if (medicalRecord == null) {
-      fetch('');
-      print("data fetched");
+    if (widget.isScanned) {
+      if (medicalRecord == null) {
+        scanFetch('');
+      }
+    } else {
+      if (medicalRecord == null) {
+        fetch('');
+        print("data fetched");
+      }
     }
   }
 
@@ -82,9 +107,15 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
                             selectedRecord = '$value';
                             print(value);
                             if (value == 'All Records') {
-                              fetch('All Records');
+                              if (widget.isScanned)
+                                scanFetch('All Records');
+                              else
+                                fetch('All Records');
                             } else {
-                              fetch(value);
+                              if (widget.isScanned)
+                                scanFetch(value);
+                              else
+                                fetch(value);
                             }
                           },
                         );
@@ -235,65 +266,6 @@ class BottomSheet extends StatelessWidget {
                                     );
                                   },
                                 ),
-                        ),
-                      );
-                    },
-                  ),
-                  //
-                  // doctor button
-                  //
-                  MaterialButton(
-                    child: Text(
-                      'Doctor',
-                      style: TextStyle(color: primaryColor, fontSize: 15),
-                    ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Container(
-                            height: 70,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: data.doctor!.image_src == null
-                                      ? Image.asset(
-                                          '$imagePath/default.png',
-                                        )
-                                      : CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: NetworkImage(
-                                              '${data.doctor!.image_src}'),
-                                        ),
-                                ),
-                                SizedBox(width: 25),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Text(
-                                      "${data.doctor?.name}",
-                                      style: TextStyle(
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "${data.doctor?.medicalSpecialization}",
-                                      style: TextStyle(
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
                         ),
                       );
                     },

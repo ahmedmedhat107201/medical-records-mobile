@@ -12,22 +12,6 @@ class ChatHomeScreen extends StatefulWidget {
 }
 
 class _ChatHomeScreenState extends State<ChatHomeScreen> {
-  var selectedOption;
-  var options = [
-    'All Specializations',
-    'Surgical',
-    'Dentistry',
-    'Radiography',
-    'Emergency',
-    'Nursing',
-    'Optometric',
-    'Cardiovascular',
-    'Infectious',
-    'DietNutrition',
-    'Dermatology',
-    'Hematologic',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -35,45 +19,6 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final result = useSubscription(
-    //   SubscriptionOptions(
-    //     document: gql(MESSAGE_RECIEVED),
-    //   ),
-    // );
-
-    // Widget? child;
-    // if (result.hasException) {
-    //   setState(() {
-    //     child = Text(result.exception.toString());
-    //   });
-    // } else if (result.isLoading) {
-    //   setState(() {
-    //     child = Center(
-    //       child: const CircularProgressIndicator(),
-    //     );
-    //   });
-    // } else {
-    //   setState(
-    //     () {
-    //       child = ResultAccumulator.appendUniqueEntries(
-    //         latest: result.data,
-    //         builder: (context, {results}) {
-    //           return TabBarView(
-    //             children: [
-    //               //1st tab
-
-    //               ChatRoomsScreen(),
-
-    //               // ChatRoomsScreen(),
-    //               //2nd tab
-    //               GetDoctorsScreen(),
-    //             ],
-    //           );
-    //         },
-    //       );
-    //     },
-    //   );
-    // }
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -125,7 +70,7 @@ class MyTabBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: TabBar(
         indicator: ShapeDecoration(
-          color: Color.fromARGB(255, 16, 99, 167),
+          color: Color.fromARGB(255, 20, 67, 109),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

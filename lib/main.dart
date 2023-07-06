@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:medical_records_mobile/view/screens/sections/chat/chatHomeScreen.dart';
+import '/view/screens/splash_screen.dart';
 import 'constant.dart';
+import '/view/screens/sections/chat/chatHomeScreen.dart';
+import '/view/screens/sections/medicalRecords/scanMedicalRecord.dart';
 import 'view/screens/sections/chat/chatRoomsScreen.dart';
-import 'view/screens/splash_screen.dart';
-import 'view/screens/sections/createMedicalRecordScreen.dart';
-import 'view/screens/sections/medicalRecordScreen.dart';
+import 'view/screens/sections/medicalRecords/createMedicalRecordScreen.dart';
+import 'view/screens/sections/medicalRecords/medicalRecordScreen.dart';
 import 'view/screens/loginScreen.dart';
 import 'view/screens/sections/QRCheckScreen.dart';
 import 'view/screens/sections/chat/chatScreen.dart';
@@ -35,18 +36,26 @@ class _MyAppState extends State<MyApp> {
       getToken: () async => 'Bearer ' + globalToken!,
     );
 
+    final WebSocketLink websocketLink = WebSocketLink(
+      graphqlWsUri,
+      config: SocketClientConfig(
+        autoReconnect: true,
+        inactivityTimeout: Duration(seconds: 30),
+      ),
+      subProtocol: GraphQLProtocol
+          .graphqlTransportWs, // This line is important, by default protocol is GraphQLProtocol.graphqlWs
+    );
+
     // for queries and mutations
     final HttpLink httpLink = HttpLink(graphqlHttpUri);
-    //for subscriptions using websockets
-    final Link websocketLink = authLink.concat(WebSocketLink(graphqlWsUri));
 
+    //for subscriptions using websockets
     final Link link = Link.split((request) => request.isSubscription,
-        websocketLink, authLink.concat(httpLink));
+        authLink.concat(websocketLink), authLink.concat(httpLink));
 
     setState(() {
       graphqlClient = ValueNotifier(
         GraphQLClient(
-          alwaysRebroadcast: true,
           link: link,
           // The default store is the InMemoryStore, which does NOT persist to disk
           cache: GraphQLCache(store: HiveStore()),
@@ -80,7 +89,8 @@ class _MyAppState extends State<MyApp> {
               routes: {
                 LoginScreen.routeID: (context) => LoginScreen(),
                 HomeScreen.routeID: (context) => HomeScreen(),
-                MedicalRecordScreen.routeID: (context) => MedicalRecordScreen(),
+                MedicalRecordScreen.routeID: (context) =>
+                    MedicalRecordScreen(isScanned: false),
                 CreateMedicalRecordScreen.routeID: (context) =>
                     CreateMedicalRecordScreen(),
                 QRCheckScreen.routeID: (context) => QRCheckScreen(),
@@ -88,6 +98,7 @@ class _MyAppState extends State<MyApp> {
                 ChatRoomsScreen.routeID: (context) => ChatRoomsScreen(),
                 ChatScreen.routeID: (context) => ChatScreen(),
                 GetDoctorsScreen.routeID: (context) => GetDoctorsScreen(),
+                ScanMedicalRecord.routeID: (context) => ScanMedicalRecord(),
               },
             ),
           );
