@@ -1,8 +1,8 @@
-doctor can display medical record and patient profile
-profile (doctor)
-rating -> getAllDoctrots, getDoctorProfile
-reviews -> separateAPI
-home screen
-machine learning model
-add review (can't post review for yourself)
-send medical record in chat
+doctor can display medical record and patient profile (done)
+profile (doctor) done)
+rating -> getAllDoctrots, getDoctorProfile (done/)
+reviews -> separateAPI  (done)
+home screen (not)
+machine learning model (waiting)
+add review (can't post review for yourself) (future work)
+send medical record in chat (future work)

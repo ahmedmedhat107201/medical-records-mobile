@@ -6,6 +6,8 @@ class CustomText extends StatelessWidget {
   final Color? color;
   final Alignment? alignment;
   final FontWeight? fontWeight;
+  final int? maxLines;
+  final TextOverflow overFlow;
 
   const CustomText({
     this.text = "",
@@ -13,6 +15,8 @@ class CustomText extends StatelessWidget {
     this.color = Colors.black,
     this.alignment = Alignment.topLeft,
     this.fontWeight,
+    this.maxLines,
+    this.overFlow = TextOverflow.clip,
   });
 
   @override
@@ -26,6 +30,8 @@ class CustomText extends StatelessWidget {
           fontSize: fontSize!,
           fontWeight: fontWeight,
         ),
+        maxLines: maxLines,
+        // overflow: overFlow,
       ),
     );
   }

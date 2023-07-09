@@ -1,7 +1,8 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../Model/Services/medicalRedords_api.dart';
-import 'medicalRecordScreen.dart';
+import '../../../widgets/custom_text.dart';
 import '/view/widgets/custom_button.dart';
 import '/view/widgets/medicalRecord_text_form_field.dart';
 
@@ -48,7 +49,13 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                   padding: EdgeInsets.only(top: 30),
                   height: 300,
                   width: double.infinity,
-                  color: primaryColor,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
                   child: Column(
                     children: [
                       Align(
@@ -177,6 +184,7 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                                   ),
                                 ),
                                 ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
                                   separatorBuilder:
                                       (BuildContext context, int index) {
                                     return SizedBox(height: 10);
@@ -184,7 +192,10 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                                   shrinkWrap: true,
                                   itemCount: detailsWidgets.length,
                                   itemBuilder: (context, index) {
-                                    return Card(
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
                                       child: detailsWidgets[index],
                                     );
                                   },
@@ -349,10 +360,44 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                     print('validate');
                     setState(() {
                       detailsWidgets.add(
-                        MedicalRecordCard(
-                          color: Color.fromARGB(255, 3, 57, 102),
-                          title: detailKey.text,
-                          text: detailValue.text,
+                        // MedicalRecordCard(
+                        //   color: Color.fromARGB(255, 3, 57, 102),
+                        //   title: detailKey.text,
+                        //   text: detailValue.text,
+                        // ),
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: detailKey.text,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: primaryColor,
+                                maxLines: 1,
+                                overFlow: TextOverflow.ellipsis,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ExpandableText(
+                                    '${detailValue.text}',
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 18,
+                                    ),
+                                    expandText: 'Read more',
+                                    collapseText: 'Show less',
+                                    linkStyle:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                    linkColor: primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                       detailListApi.add({

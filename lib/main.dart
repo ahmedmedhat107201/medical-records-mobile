@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import '/view/screens/splash_screen.dart';
+import 'package:medical_records_mobile/view/screens/splash_screen.dart';
 import 'constant.dart';
 import '/view/screens/sections/chat/chatHomeScreen.dart';
 import '/view/screens/sections/medicalRecords/scanMedicalRecord.dart';
