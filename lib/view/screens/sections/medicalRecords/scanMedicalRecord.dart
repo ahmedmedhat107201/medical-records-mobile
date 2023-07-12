@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecords/medicalRecordScreen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../../Model/Services/QR_code_api.dart';
@@ -70,16 +71,16 @@ class _ScanMedicalRecordState extends State<ScanMedicalRecord> {
                       child: Text('Scan QR Code (doctors)'),
                       color: primaryColor,
                       onPressed: () async {
-                        // globalScannedQRCode =
-                        //     await FlutterBarcodeScanner.scanBarcode(
-                        //   '#ff6666',
-                        //   'Cancel',
-                        //   true,
-                        //   ScanMode.BARCODE,
-                        // );
-
                         globalScannedQRCode =
-                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMTExMTExMTExMTExMTEiLCJpZCI6IjMwNGE2ZGY2LWZlOTMtNDc5OC1iYTQ2LTQ5OWJlNDE1NDljZSIsIm5hbWUiOiJBaG1lZCBNZWRoYXQiLCJpYXQiOjE2ODkxMjA0MzEsImV4cCI6MTY4OTEyMDczMX0.LtGWBg4HY0mbZDja834kqx3nY1GBiKvVHLd3FVdeMj4';
+                            await FlutterBarcodeScanner.scanBarcode(
+                          '#ff6666',
+                          'Cancel',
+                          true,
+                          ScanMode.BARCODE,
+                        );
+
+                        // globalScannedQRCode =
+                        //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMTExMTExMTExMTExMTEiLCJpZCI6IjMwNGE2ZGY2LWZlOTMtNDc5OC1iYTQ2LTQ5OWJlNDE1NDljZSIsIm5hbWUiOiJBaG1lZCBNZWRoYXQiLCJpYXQiOjE2ODkxMjA0MzEsImV4cCI6MTY4OTEyMDczMX0.LtGWBg4HY0mbZDja834kqx3nY1GBiKvVHLd3FVdeMj4';
 
                         showDialog(
                           context: context,
