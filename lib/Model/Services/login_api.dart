@@ -12,7 +12,10 @@ Future login_api(String id, String password) async {
       <String, String>{"nationalId": id, "password": password},
     ),
   );
+  print(response.statusCode);
+
   if (response.statusCode == 200) {
+    print('object');
     await storage.write(
       key: 'token',
       value: "${json.decode(response.body)['accessToken']}",

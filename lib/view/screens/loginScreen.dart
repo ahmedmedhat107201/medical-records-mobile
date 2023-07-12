@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_text.dart';
 import '/Model/Services/login_api.dart';
 import '/constant.dart';
 import 'sections/homeScreen.dart';
@@ -20,7 +21,22 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Center(child: Text("Login")),
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 20,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: CustomText(
+              alignment: Alignment.center,
+              text: 'Login',
+              fontSize: 20,
+              // fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

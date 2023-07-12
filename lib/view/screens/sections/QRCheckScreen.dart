@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medical_records_mobile/view/screens/sections/medicalRecords/createMedicalRecordScreen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import '../../widgets/custom_text.dart';
 import '/view/widgets/custom_drawer.dart';
 import '../../../Model/Services/QR_code_api.dart';
 import '/constant.dart';
@@ -19,7 +20,22 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Center(child: Text('New Medical Record')),
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 20,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: CustomText(
+              alignment: Alignment.center,
+              text: 'Create Medical Record',
+              fontSize: 20,
+              // fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
       drawer: CustomDrawer(),
       body: Container(
@@ -33,19 +49,20 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                 onPressed: () async {
                   globalGeneratedQRCode = await generateQRCode_api();
                   showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          content: Center(
-                            child: QrImageView(
-                              data: globalGeneratedQRCode.toString(),
-                              size: 200,
-                              version: QrVersions.auto,
-                            ),
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        scrollable: true,
+                        content: Center(
+                          child: QrImageView(
+                            data: globalGeneratedQRCode.toString(),
+                            size: 200,
+                            version: QrVersions.auto,
                           ),
-                        );
-                      });
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               globalUser!.medicalSpecialization == null
@@ -63,7 +80,7 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                         // );
 
                         globalScannedQRCode =
-                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMjExMTExMTExMTExMTEiLCJpYXQiOjE2ODQwMDkxMjF9.Eo-Ch9DAWQb73gDTPzV0ad4pgt6V8X-loBaYtEKJn2w';
+                            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYXRpb25hbElkIjoiMTExMTExMTExMTExMTEiLCJpZCI6IjMwNGE2ZGY2LWZlOTMtNDc5OC1iYTQ2LTQ5OWJlNDE1NDljZSIsIm5hbWUiOiJBaG1lZCBNZWRoYXQiLCJpYXQiOjE2ODkxMjA0MzEsImV4cCI6MTY4OTEyMDczMX0.LtGWBg4HY0mbZDja834kqx3nY1GBiKvVHLd3FVdeMj4';
 
                         showDialog(
                           context: context,
@@ -73,34 +90,30 @@ class _QRCheckScreenState extends State<QRCheckScreen> {
                             );
                           },
                         );
-                        setState(
-                          () async {
-                            scannedUser = await scanQRCode_api(
-                              globalScannedQRCode!,
-                            );
-                            globalScannedUser = scannedUser;
-
-                            Navigator.of(context).pop();
-                            if (scannedUser!.id != null) {
-                              Navigator.pushNamed(
-                                context,
-                                CreateMedicalRecordScreen.routeID,
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: primaryColor,
-                                  duration: Duration(seconds: 5),
-                                  content: Text('Try To Scan Again'),
-                                  action: SnackBarAction(
-                                    label: 'dismiss',
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              );
-                            }
-                          },
+                        scannedUser = await scanQRCode_api(
+                          globalScannedQRCode!,
                         );
+                        globalScannedUser = scannedUser;
+
+                        Navigator.of(context).pop();
+                        if (scannedUser!.id != null) {
+                          Navigator.pushNamed(
+                            context,
+                            CreateMedicalRecordScreen.routeID,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: primaryColor,
+                              duration: Duration(seconds: 5),
+                              content: Text('Try To Scan Again'),
+                              action: SnackBarAction(
+                                label: 'dismiss',
+                                onPressed: () {},
+                              ),
+                            ),
+                          );
+                        }
                       },
                     ),
             ],

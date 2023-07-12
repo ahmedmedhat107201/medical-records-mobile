@@ -18,7 +18,9 @@ const Color secondryColor = Color.fromRGBO(237, 237, 237, 1);
 
 final storage = const FlutterSecureStorage();
 
-String baseUrl = 'https://medical-records-server1.onrender.com/api/v1';
+// String baseUrl = 'https://medical-records-server1.onrender.com/api/v1';
+String baseUrl =
+    'https://ec2-3-138-142-207.us-east-2.compute.amazonaws.com:3000/api/v1';
 
 String imagePath = "assets/images";
 

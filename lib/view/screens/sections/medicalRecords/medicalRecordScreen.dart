@@ -79,8 +79,21 @@ class MedicalRecordState extends State<MedicalRecordScreen> {
       drawer: CustomDrawer(),
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Center(
-          child: Text('Medical Record'),
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 20,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: CustomText(
+              alignment: Alignment.center,
+              text: 'Medical Records',
+              fontSize: 20,
+              // fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
       body: load
@@ -232,37 +245,44 @@ class NewMedicalRecord extends StatelessWidget {
                                   );
                                 },
                               ),
+                        SizedBox(width: 5),
                         scanned
                             ? Container()
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text:
-                                        'DR. ${medicalRecords![index]!.doctor!.name!}',
-                                    color: secondryColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  CustomText(
-                                    text: medicalRecords![index]!
-                                        .doctor!
-                                        .medicalSpecialization!,
-                                    color: secondryColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+                            : Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text:
+                                          '${medicalRecords![index]!.doctor!.name!}',
+                                      maxLines: 1,
+                                      overFlow: TextOverflow.ellipsis,
+                                      color: secondryColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    CustomText(
+                                      text: medicalRecords![index]!
+                                          .doctor!
+                                          .medicalSpecialization!,
+                                      color: secondryColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
                               ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(child: Text('')),
-                            CustomText(
-                              text: formateDateTimeToDate(record.createdAt!),
-                              color: Colors.grey.shade400,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(child: Text('')),
+                              CustomText(
+                                text: formateDateTimeToDate(record.createdAt!),
+                                color: Colors.grey.shade400,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -392,144 +412,6 @@ class NewMedicalRecord extends StatelessWidget {
             },
           );
         },
-      ),
-    );
-  }
-}
-
-class BottomSheet extends StatelessWidget {
-  const BottomSheet({
-    required this.data,
-  });
-
-  final MedicalRecordApi data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20),
-      height: 500,
-      child: Column(
-        children: [
-          Center(
-            child: Text(
-              '${data.actionType}',
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 25),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  //
-                  // medical cards
-                  //
-                  MedicalRecordCard(
-                    title: 'Title',
-                    text: '${data.title}',
-                  ),
-                  MedicalRecordCard(
-                    title: 'Time Created',
-                    text: formateDateTimeToDate(data.createdAt.toString()),
-                  ),
-                  MedicalRecordCard(
-                    title: 'Life Time',
-                    text: data.lifetime.toString(),
-                  ),
-                  //
-                  // details button
-                  //
-                  MaterialButton(
-                    child: Text(
-                      'Details',
-                      style: TextStyle(color: primaryColor, fontSize: 15),
-                    ),
-                    onPressed: () {
-                      var details = data.details;
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          scrollable: true,
-                          content: details!.isEmpty
-                              ? Text('No Details for this patient')
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: details.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      color: primaryColor,
-                                      child: ListTile(
-                                        textColor: Colors.white,
-                                        leading: Text("${details[index].key}"),
-                                        title: Text(
-                                          "${details[index].value}",
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MedicalRecordCard extends StatelessWidget {
-  final String? title;
-  final String? text;
-  final Color? color;
-
-  const MedicalRecordCard({
-    this.title,
-    this.text,
-    this.color = primaryColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      child: Card(
-        color: color,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(
-                "$title",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Text(
-                "${text}",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

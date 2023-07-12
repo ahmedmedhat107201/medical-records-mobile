@@ -18,7 +18,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
       load = true;
     });
     roomsList = await getChatRooms_api();
-    globalRoomsList = roomsList;
+    // globalRoomsList = roomsList;
     setState(() {
       load = false;
     });
@@ -28,7 +28,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   void initState() {
     super.initState();
     if (globalDoctorList != null) {
-      roomsList = globalRoomsList;
+      // roomsList = globalRoomsList;
     } else if (roomsList == null) {
       fetch();
     }

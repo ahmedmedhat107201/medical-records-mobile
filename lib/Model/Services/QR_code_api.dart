@@ -43,7 +43,7 @@ Future<ScannedUser> scanQRCode_api(String qrCode) async {
   final response = await http.post(
     body: (<String, String>{"qrCode": qrCode}),
     Uri.parse(
-      'https://medical-records-server1.onrender.com/api/v1/doctors/scan-qrCode',
+      '$baseUrl/doctors/scan-qrCode',
     ),
     headers: <String, String>{
       'Authorization': 'Bearer $accessToken',

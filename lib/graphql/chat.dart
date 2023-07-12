@@ -1,4 +1,4 @@
-const String SEND_MESSAGE = """
+final String SEND_MESSAGE = """
   mutation sendMessage(\$value: String!, \$toId: String!) {
       sendMessage(data: { value: \$value, toId: \$toId }) {
         id

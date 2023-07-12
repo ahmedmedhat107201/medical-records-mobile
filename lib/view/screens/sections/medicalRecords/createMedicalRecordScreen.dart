@@ -360,11 +360,6 @@ class _CreateMedicalRecordScreenState extends State<CreateMedicalRecordScreen> {
                     print('validate');
                     setState(() {
                       detailsWidgets.add(
-                        // MedicalRecordCard(
-                        //   color: Color.fromARGB(255, 3, 57, 102),
-                        //   title: detailKey.text,
-                        //   text: detailValue.text,
-                        // ),
                         Container(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,

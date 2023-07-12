@@ -52,13 +52,22 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     return Scaffold(
       backgroundColor: secondryColor,
       drawer: CustomDrawer(),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: AppBar(
-          centerTitle: true,
-          backgroundColor: primaryColor,
-          title: Center(
-            child: Text("Doctor Profile"),
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 20,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: CustomText(
+              alignment: Alignment.center,
+              text: 'Doctor Profile',
+              fontSize: 20,
+              // fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -82,7 +91,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomText(
-                              text: 'DR. ${doctorProfile!.name}',
+                              text: '${doctorProfile!.name}',
                               color: primaryColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -115,7 +124,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                               backgroundImage: doctorProfile!.image_src == null
                                   ? Image.asset('imagePath/default.png').image
                                   : Image.network(
-                                      doctorProfile!.image_src.toString(),
+                                      '${doctorProfile!.image_src.toString()}',
                                     ).image,
                             ),
                           ),

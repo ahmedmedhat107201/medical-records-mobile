@@ -112,8 +112,7 @@ Future<getChatMessagesApi?>? getChatMessages_api(String? userId) async {
   var accessToken = await storage.read(key: 'token');
   globalToken = accessToken;
 
-  Uri uri = Uri.parse(
-      'https://medical-records-server1.onrender.com/api/v1/chat/room-messages/$userId');
+  Uri uri = Uri.parse('$baseUrl/chat/room-messages/$userId');
 
   final response = await http.get(
     uri,

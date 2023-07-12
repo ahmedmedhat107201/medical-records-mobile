@@ -66,8 +66,7 @@ class Reviewer {
 Future<List<DoctorReviewAPI?>?> getDoctorReview_api(String? doctorId) async {
   Map<String, dynamic> params = {"doctorId": doctorId};
 
-  Uri uri = Uri.parse(
-      'https://medical-records-server1.onrender.com/api/v1/doctors/reviews');
+  Uri uri = Uri.parse('$baseUrl/doctors/reviews');
   final finalUri = uri.replace(queryParameters: params);
 
   final response = await http.get(

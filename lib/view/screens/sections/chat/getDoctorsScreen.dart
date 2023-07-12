@@ -37,8 +37,8 @@ class _GetDoctorsScreenState extends State<GetDoctorsScreen> {
       medicalSpecialization: medicalSpecialization,
       name: name,
     );
-    globalDoctorList = doctorsList;
-    globalMedicalSpecialization = medicalSpecializationValue;
+    // globalDoctorList = doctorsList;
+    // globalMedicalSpecialization = medicalSpecializationValue;
     setState(() {
       load = false;
     });
@@ -48,8 +48,8 @@ class _GetDoctorsScreenState extends State<GetDoctorsScreen> {
   void initState() {
     super.initState();
     if (globalDoctorList != null) {
-      doctorsList = globalDoctorList;
-      medicalSpecializationValue = globalMedicalSpecialization;
+      // doctorsList = globalDoctorList;
+      // medicalSpecializationValue = globalMedicalSpecialization;
     } else if (doctorsList == null) {
       fetch(medicalSpecialization: '', name: '');
     }

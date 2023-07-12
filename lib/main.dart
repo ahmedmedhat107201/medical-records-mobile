@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:medical_records_mobile/view/screens/splash_screen.dart';
@@ -15,6 +17,7 @@ import 'view/screens/sections/homeScreen.dart';
 
 void main() async {
   await initHiveForFlutter();
+  HttpOverrides.global = MyHttpOverrides();
 
   runApp(MyApp());
 }
@@ -27,10 +30,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Future<void> initGraphQlClient() async {
     final String graphqlHttpUri =
-        'https://medical-records-server1.onrender.com/graphql';
+        'https://ec2-3-138-142-207.us-east-2.compute.amazonaws.com:3000/graphql';
 
     final String graphqlWsUri =
-        'wss://medical-records-server1.onrender.com/graphql';
+        'https://ec2-3-138-142-207.us-east-2.compute.amazonaws.com:3000/graphql';
 
     final AuthLink authLink = AuthLink(
       getToken: () async => 'Bearer ' + globalToken!,
@@ -102,5 +105,18 @@ class _MyAppState extends State<MyApp> {
               },
             ),
           );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (
+        X509Certificate cert,
+        String host,
+        int port,
+      ) =>
+          true;
   }
 }

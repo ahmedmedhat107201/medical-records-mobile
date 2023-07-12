@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/custom_text.dart';
 import '/view/screens/sections/chat/chatRoomsScreen.dart';
 import '/view/screens/sections/chat/getDoctorsScreen.dart';
 import '/constant.dart';
@@ -26,8 +27,21 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
         backgroundColor: primaryColor,
         appBar: AppBar(
           backgroundColor: primaryColor,
-          title: Center(
-            child: Text('CHAT'),
+          flexibleSpace: Padding(
+            padding: EdgeInsets.only(
+              top: 20,
+              left: 20,
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: CustomText(
+                alignment: Alignment.center,
+                text: 'Chat',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
           ),
           elevation: 0,
         ),
